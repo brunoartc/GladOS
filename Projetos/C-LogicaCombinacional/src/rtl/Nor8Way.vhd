@@ -14,8 +14,7 @@ entity Nor8Way is
 			q:   out STD_LOGIC);
 end entity;
 	
-architecture rtl of Nor8Way is 
+architecture func of Nor8Way is 
   begin
     F<=a nor b nor c nor d nor d nor e nor f nor g nor h;
-    result <= F
-  end rtl; 
+  end func; 
