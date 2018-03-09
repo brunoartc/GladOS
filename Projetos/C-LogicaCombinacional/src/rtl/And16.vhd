@@ -7,7 +7,8 @@ entity And16 is
 			b:   in  STD_LOGIC_VECTOR(15 downto 0);
 			q:   out STD_LOGIC_VECTOR(15 downto 0));
 end entity;
-architecture func of And16 is 
+
+architecture func of ANd16 is 
 begin
-   F <= a and b;
+   q <= a and b;
 end func;
