@@ -9,6 +9,6 @@ end entity;
 	
 architecture func of Nor8Way is
   begin
-  q <= not(a);
+  q <= not a;
 
  end func;
