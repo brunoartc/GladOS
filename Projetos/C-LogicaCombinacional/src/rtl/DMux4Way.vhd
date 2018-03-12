@@ -2,7 +2,7 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
 entity DMux4Way is
-	port ( 
+	port (
 			a:   in  STD_LOGIC;
 			sel: in  STD_LOGIC_VECTOR(1 downto 0);
 			q0:  out STD_LOGIC;
@@ -10,3 +10,11 @@ entity DMux4Way is
 			q2:  out STD_LOGIC;
 			q3:  out STD_LOGIC);
 end entity;
+
+architecture arch of DMux4Way is
+
+begin
+
+
+
+end arch;
