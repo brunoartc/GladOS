@@ -14,3 +14,7 @@ entity Nor8Way is
 			q:   out STD_LOGIC);
 end entity;
 
+architecture run of Nor8Way is
+	begin
+		q<=not(a or b or c or d or e or f or h);
+	end run;
