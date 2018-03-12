@@ -14,7 +14,3 @@ entity Nor8Way is
 			q:   out STD_LOGIC);
 end entity;
 
-architecture func of Nor8Way is
- begin
-  q <= not(a or b or c or d or e or f or g or h);
- end func;
