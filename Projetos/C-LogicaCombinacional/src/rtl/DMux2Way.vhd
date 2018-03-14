@@ -18,4 +18,3 @@ begin
 end func;
 =======
 end entity
->>>>>>> f73964f29ff59ca081f6e546f6d855cd73e9f6da
