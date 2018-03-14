@@ -15,3 +15,4 @@ begin
 		q0 <= aa and a;
 		q1 <= sel and a;
 end func;
+end entity
