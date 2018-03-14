@@ -7,6 +7,7 @@ entity DMux2Way is
 			sel: in  STD_LOGIC;
 			q0:  out STD_LOGIC;
 			q1:  out STD_LOGIC);
+<<<<<<< HEAD
 end entity;
 architecture func of DMux2Way is
 signal aa : STD_LOGIC;
@@ -15,3 +16,6 @@ begin
 		q0 <= aa and a;
 		q1 <= sel and a;
 end func;
+=======
+end entity
+>>>>>>> f73964f29ff59ca081f6e546f6d855cd73e9f6da
