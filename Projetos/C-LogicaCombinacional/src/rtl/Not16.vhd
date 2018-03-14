@@ -7,7 +7,7 @@ entity Not16 is
 			q:   out STD_LOGIC_VECTOR(15 downto 0));
 end entity;
 	
-architecture func of Nor8Way is
+architecture func of Not16 is
   begin
   q <= not a;
 

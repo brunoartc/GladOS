@@ -11,10 +11,11 @@ entity DMux4Way is
 			q3:  out STD_LOGIC);
 end entity;
 
-architecture arch of DMux4Way is
+architecture func of DMux4Way is
 
 begin
-
-
-
-end arch;
+	q0 <= a and not sel(0) and not sel(1);
+	q1 <= a and not sel(1) and sel(0);
+	q2 <= a and sel(1) and not sel(0);
+	q3 <= a and sel(0) and sel(1);
+end func;
