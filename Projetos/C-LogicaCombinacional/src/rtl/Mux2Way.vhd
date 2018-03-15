@@ -9,7 +9,6 @@ entity Mux2Way is
 			q:   out STD_LOGIC);
 end entity;
 architecture func of Mux2Way is
-signal aa : STD_LOGIC;
 begin
 	q <= a when (sel = '0') else
 			 b when (sel = '1');
