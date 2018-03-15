@@ -1,9 +1,9 @@
 --
 -- Elementos de Sistemas - Aula 5 - Logica Combinacional
--- Rafael . Corsi @ insper . edu . br 
+-- Rafael . Corsi @ insper . edu . br
 --
 -- Arquivo exemplo para acionar os LEDs e ler os bottoes
--- da placa DE0-CV utilizada no curso de elementos de 
+-- da placa DE0-CV utilizada no curso de elementos de
 -- sistemas do 3s da eng. da computacao
 
 ----------------------------
@@ -19,80 +19,78 @@ use work.all;
 ----------------------------
 entity TopLevel is
 	port(
-		SW      : in  std_logic_vector(9 downto 0);
-		LEDR    : out std_logic_vector(9 downto 0)
+		A     : in  std_logic;
+		B     : in std_logic;
+		C     : in std_logic;
+		Q     : out std_logic
 	);
 end entity;
 
 ----------------------------
--- Implementacao do bloco -- 
+-- Implementacao do bloco --
 ----------------------------
 architecture rtl of TopLevel is
 
 --------------
 -- signals
 --------------
-  signal a : std_logic_vector(15 downto 0) := x"0E73"; -- 163
-  signal v : std_logic_vector(15 downto 0) := x"025F"; -- 95
+signal sand : std_logic:='0';
+signal sandand : std_logic:='0';
 ---------------
 -- implementacao
 ---------------
 
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
+component nand_z01
+   port(
+          a : in  std_logic;
+	        b : in  std_logic;
+	        q : out std_logic
+   );
+end component;
 
-entity And16 is
-	port ( 
+component Or8Way
+	port (
+			a:   in  STD_LOGIC;
+			b:   in  STD_LOGIC;
+			c:   in  STD_LOGIC;
+			d:   in  STD_LOGIC;
+			e:   in  STD_LOGIC;
+			f:   in  STD_LOGIC;
+			g:   in  STD_LOGIC;
+			h:   in  STD_LOGIC;
+			q:   out STD_LOGIC);
+end component;
+
+component And16 is
+	port (
 			a:   in  STD_LOGIC_VECTOR(15 downto 0);
 			b:   in  STD_LOGIC_VECTOR(15 downto 0);
 			q:   out STD_LOGIC_VECTOR(15 downto 0));
-end entity;
+end component;
 
-architecture func of ANd16 is 
+
 begin
-   q <= a and b;
-end func;
+	NaN: nand_z01 port map(
+	A=>a,
+	A=>b,
+	q=>sand);
 
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
+	Ou: Or8Way port map (
+	sand=>a,
+	C=>b,
+	c=>'0',
+	d=>'0',
+	e=>'0',
+	f=>'0',
+	g=>'0',
+	h=>'0',
+	q=>sandand);
 
-entity Or16 is
-	port ( 
-			a:   in  STD_LOGIC_VECTOR(15 downto 0);
-			b:   in  STD_LOGIC_VECTOR(15 downto 0);
-			q:   out STD_LOGIC_VECTOR(15 downto 0));
-end entity;
-
-architecture func of Or16 is 
-begin
-   q <= a or b;
-end func;
-
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
-
-entity Not16 is
-	port ( 
-			a:   in  STD_LOGIC_VECTOR(15 downto 0);
-			q:   out STD_LOGIC_VECTOR(15 downto 0));
-end entity;
-	
-architecture func of Not16 is
-  begin
-  q <= not a;
-
- end func;
-
-
-
- 
- begin
- 
-  juro_que_tentei : Not16 port map(
-	a_signal => a,
-	q => v
-  );
- 
-  
-
+	atchin: And16 port map (
+	sandand=>a,
+	B=>b,
+	q=>Q);
+	--LEDR(8) <= ((NaN a) Ou C) atchin b;
+	--B(Ä+C)
+	--ä(b+c)
 end rtl;
