@@ -17,4 +17,6 @@ architecture rtl of zerador16 is
 
 begin
 
+   y <= a and not z;
+   
 end architecture;
