@@ -89,28 +89,9 @@ architecture  rtl OF alu IS
 			q:   out STD_LOGIC_VECTOR(15 downto 0)
 		);
 	end component;
-	
-	component Mux2Way is
-		port (
-			a:   in  STD_LOGIC_VECTOR(15 DOWNTO 0);
-			b:   in  STD_LOGIC_VECTOR(15 DOWNTO 0);
-			sel: in  STD_LOGIC;
-			q:   out STD_LOGIC_VECTOR(15 DOWNTO 0)
-		);
-	end component;
 
    SIGNAL zxout,zyout,nxout,nyout,andout,adderout,muxout,precomp: std_logic_vector(15 downto 0);
 
 begin
-name : zerador16 port map (zx,x,zxout);
-name2 : inversor16 port map (nx,zxout,nxout);
-name3 : zerador16 port map (zy,y,zyout);
-name4 : inversor16 port map (ny,zyout,nyout);
-name5 : and16 port map (nxout,nyout,andout);
-name6 : add16 port map (nxout,nyout,adderout);
-name7 : mux2way port map (andout,adderout,f,muxout);
-vai : inversor16 port map (no,muxout,precomp);
-saida <= precomp;
-vaitoma : comparador16 port map (precomp,zr,ng);
 
 end architecture;
