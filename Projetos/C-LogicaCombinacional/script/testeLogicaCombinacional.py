@@ -49,6 +49,3 @@ if __name__ == "__main__":
     tstLogiComb.print();
     tstLogiComb.add(tstLogiComb.work)
     tstLogiComb.work.run()
-
-
-
