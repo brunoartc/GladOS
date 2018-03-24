@@ -25,8 +25,22 @@ entity PC is
 end entity;
 
 architecture arch of PC is
-
+  signal toout : STD_LOGIC_VECTOR(15 downto 0);
 begin
 
+  process (reset,load,increment, clock) begin
+
+    if (reset = '1') then
+      toout <= "0000000000000000";
+    elsif (load = '1') then
+      toout <= input;
+    elsif (inc = '1') then
+      hmmm : Inc16 port map (toout,toout);
+    else
+      toout <= toout;
+
+  end if;
+
+  output <= toout;
 
 end architecture;
