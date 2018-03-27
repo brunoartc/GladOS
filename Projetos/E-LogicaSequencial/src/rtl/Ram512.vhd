@@ -4,7 +4,7 @@
 
 Library ieee;
 use ieee.std_logic_1164.all;
-USE ieee.numeric_std.ALL;
+
 
 entity Ram512 is
 	port(
