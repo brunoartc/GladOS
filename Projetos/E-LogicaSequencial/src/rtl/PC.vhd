@@ -26,21 +26,31 @@ end entity;
 
 architecture arch of PC is
   signal toout : STD_LOGIC_VECTOR(15 downto 0);
+  signal incrementado : STD_LOGIC_VECTOR(15 downto 0);
+  component Inc16 is
+	port(
+		a   :  in STD_LOGIC_VECTOR(15 downto 0);
+		q   : out STD_LOGIC_VECTOR(15 downto 0)
+	);
+end component;
 begin
-
+  uhules : inc16 port map(input,incrementado);
+  
   process (reset,load,increment, clock) begin
 
     if (reset = '1') then
-      toout <= "0000000000000000";
+      toout <= toout and "0";
     elsif (load = '1') then
       toout <= input;
-    elsif (inc = '1') then
-      hmmm : Inc16 port map (toout,toout);
+    elsif (increment = '1') then
+      toout <= incrementado;
     else
       toout <= toout;
 
   end if;
 
   output <= toout;
+	
+  end process;
 
-end architecture;
+	end architecture;
