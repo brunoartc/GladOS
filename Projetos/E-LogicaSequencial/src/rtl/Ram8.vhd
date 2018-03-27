@@ -62,19 +62,21 @@ architecture func of Ram8 is
 	begin
 
     --nao sei porque nao funciona
-    --process (clock)
-    --begin
-    --  if rising_edge(clock) then
-    --    if load = '1' then
-    --      ramm(to_integer(unsigned(address))) <= input;
-    --    end if;
-    --  end if;
-    --  output <= ramm(to_integer(unsigned(address)));
-    --end process;
+    process (clock)
+    begin
+      if rising_edge(clock) then
+        if load = '1' then
+          ramm(to_integer(unsigned(address))) <= input;
+        end if;
+      end if;
 
-    P0: Register16 port map(clock,input,load,saida);
-    ramm(to_integer(unsigned(address))) <= saida;
-    output <= saida;
+    end process;
+		output <= ramm(to_integer(unsigned(address)));
+
+    --P0: Register16 port map(clock,input,load,saida);
+    --ramm(to_integer(unsigned(address))) <= saida when (load = '0');
+    --output <= saida when (load = '1');
+		-- funciona mas nao como esperado
 
 
 end func;
