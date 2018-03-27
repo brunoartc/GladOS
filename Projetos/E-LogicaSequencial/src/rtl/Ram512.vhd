@@ -2,9 +2,9 @@
 -- by Luciano Soares
 -- Ram512.vhd
 
-Library ieee; 
+Library ieee;
 use ieee.std_logic_1164.all;
-  
+
 entity Ram512 is
 	port(
 		clock:   in  STD_LOGIC;
