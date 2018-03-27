@@ -102,3 +102,13 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# Quartus
+.bak
+.map*
+.asm*
+.jdi
+.cmp*
+.hbdb*
+.rrp*
+.flow*
