@@ -14,7 +14,6 @@ entity Register16 is
 	);
 end entity;
 
-architecture func of Register16 is
 component Register8 is
 	port(
 		clock:   in STD_LOGIC;
@@ -24,7 +23,8 @@ component Register8 is
 	);
 end component;
 
-	begin
+	begin 
 	P0: Register8 port map(clock,input(7 downto 0),load,output(7 downto 0));
-	P1: Register8 port map(clock,input(15 downto 8),load,output(15 downto 8));
+	P1: register8 port map(clock,input(15 downto 8),load,output(15 downto 8));
+
 end func;

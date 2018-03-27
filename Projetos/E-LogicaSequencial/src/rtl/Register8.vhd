@@ -14,7 +14,9 @@ entity Register8 is
 	);
 end entity;
 
+
 architecture func of Register8 is
+
 component BinaryDigit is
 	port(
 		clock:   in STD_LOGIC; --
@@ -25,6 +27,7 @@ component BinaryDigit is
 end component;
 
 	begin
+
 	P0: BinaryDigit port map(clock,input(0),load,output(0));
 	P1: BinaryDigit port map(clock,input(1),load,output(1));
 	P2: BinaryDigit port map(clock,input(2),load,output(2));
