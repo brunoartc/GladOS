@@ -2,8 +2,7 @@
 [![Build Status](https://travis-ci.org/brunoartc/Z01-GladOS.svg?branch=master)](https://travis-ci.org/brunoartc/Z01-GladOS)
 
  Repositório raíz do desenvolvimento do computador Z01 da disciplina de Elementos de Sistemas 
- 
- Resumo Material Elementos de Sistemas :
+Resumo Material Elementos de Sistemas :
 
 
 # Aula 1 - Organização de Computadores
