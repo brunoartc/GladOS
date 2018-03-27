@@ -45,7 +45,7 @@ architecture func of Ram512 is
 	  type memo64 is array (63 downto 0) of STD_LOGIC_VECTOR(15 downto 0);
 	  SIGNAL pipe : memo64;
 	  begin
-	    P0: Ram64 port map (clock,input,load,address(5 downto 0),pipe(0));
+	    P0: Ram64 port map (clock,input,load,address( 5 downto 0),pipe(0));
 	    P1: Ram64 port map (clock,input,load,address( 5 downto 0 ),pipe(1));
 	    P2: Ram64 port map (clock,input,load,address( 5 downto 0 ),pipe(2));
 	    P3: Ram64 port map (clock,input,load,address( 5 downto 0 ),pipe(3));
