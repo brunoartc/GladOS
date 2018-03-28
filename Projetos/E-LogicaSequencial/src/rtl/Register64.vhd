@@ -25,6 +25,6 @@ component Register32 is
 end component;
 
 begin
-  P0: Register32 port map(clock,input(7 downto 0),load,output(7 downto 0));
-  P1: Register32 port map(clock,input(15 downto 8),load,output(15 downto 8));
+  P0: Register32 port map(clock,input(31 downto 0),load,output(7 downto 0));
+  P1: Register32 port map(clock,input(63 downto 32),load,output(15 downto 8));
 end func;
