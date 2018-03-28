@@ -112,3 +112,8 @@ ENV/
 .hbdb*
 .rrp*
 .flow*
+*.tdf
+*.hdb
+*.cdb
+*.qsf
+*.sdc
