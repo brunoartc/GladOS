@@ -25,5 +25,7 @@ movw %S, (%A) ; RAM(%A)=S
 
 ;RAM[3]=1
 
-leaw $3, %A ; A=3
-leaw $1, (%A) ; RAM(%A)=1
+leaw $1, %A ; A=1
+movw $A, %S ; S=1
+leaw $3,%A ; A=3
+movw %S, (%A) ; RAM(%A)=S
