@@ -13,7 +13,7 @@ entity tb_FlipFlopD is
   generic (runner_cfg : string);
 end entity;
 
-architecture tb of tb_FlipFlopD is
+architecture tb of PC is
 
   component PC is
       port(
