@@ -12,20 +12,20 @@
 leaw $INI, %A
 jmp
 
-:RUM
+RUM:
 leaw $R0, %A
 movw (%A), %R2
 leaw $ENDE, %A
 jmp
 
-:RDOIS
+RDOIS:
 leaw $R1, %A
 movw (%A), %R2
 leaw $ENDE, %A
 jmp
 
 
-:INI
+INI:
 leaw $R0, %A
 movw (%A), %D
 leaw $R1, %A
@@ -40,5 +40,5 @@ leaw $RDOIS, %A
 
 jle %D
 
-:ENDE
+ENDE:
 nop
