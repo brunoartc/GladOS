@@ -6,3 +6,15 @@
 ; Divide R0 por R1 e armazena o resultado em R2.
 ; (R0, R1, R2 refer to RAM[0], RAM[1], and RAM[2], respectively.)
 ; divisao para numeros inteiros positivos
+
+leaw $R0, %A
+movw (%A), %D
+leaw $R1, %A
+
+DIVS:                              ; Label para saltar
+    leaw $R1, %A
+    subw %D,(%A),%D
+    incw %S
+    leaw $DIVS, %A
+    jle
+    movw %S, ($R2)
