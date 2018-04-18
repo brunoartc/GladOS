@@ -11,19 +11,25 @@
 
 leaw $INI, %A
 jmp
+nop
 
 RUM:
 leaw $R0, %A
-movw (%A), %R2
+movw (%A), %S
+leaw $R2, %A
+movw %S, (%A)
 leaw $ENDE, %A
 jmp
+nop
 
 RDOIS:
 leaw $R1, %A
-movw (%A), %R2
+movw (%A), %S
+leaw $R2, %A
+movw %S, (%A)
 leaw $ENDE, %A
 jmp
-
+nop
 
 INI:
 leaw $R0, %A
@@ -35,10 +41,12 @@ subw %D,(%A),%D
 leaw $RUM, %A
 
 jg %D
+nop
 
 leaw $RDOIS, %A
 
 jle %D
+nop
 
 ENDE:
 nop
