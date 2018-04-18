@@ -7,14 +7,16 @@
 ; (R0, R1, R2 refer to RAM[0], RAM[1], and RAM[2], respectively.)
 ; divisao para numeros inteiros positivos
 
-leaw $R0, %A
+leaw $0, %A
 movw (%A), %D
-leaw $R1, %A
+leaw $1, %A
 
 DIVS:                              ; Label para saltar
-    leaw $R1, %A
-    subw %D,(%A),%D
-    incw %S
-    leaw $DIVS, %A
-    jle
-    movw %S, ($R2)
+leaw $1, %A
+subw %D,(%A),%D
+incw %S
+leaw $DIVS, %A
+jg %D
+nop
+leaw $2,%A
+movw %S, (%A)
