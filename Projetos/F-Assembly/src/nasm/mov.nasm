@@ -11,21 +11,19 @@
 ; RAM[1] = RAM[0]
 ; RAM[3] = 1
 
-;RAM[0]=RAM[1]
-leaw $1, %A ; A=1
-movw (%A),$S; S=RAM(%A)
-leaw $0,%A ; A=0
-movw %S, (%A) ; RAM(%A)=S
+leaw $R1, %A
+movw (%A),%S  ; S=R1
+leaw $R0, %A
+movw (%A),%D  ; D=R0
 
-;RAM[1]=RAM[0]
-leaw $1, %A ; A=0
-movw (%A),$S; S=RAM(%A)
-leaw $0,%A ; A=1
-movw %S, (%A) ; RAM(%A)=S
 
-;RAM[3]=1
+leaw $R0,%A
+movw %S, (%A) ; R0=S
+leaw $R1,%A
+movw %D, (%A) ; R1=D
 
-leaw $1, %A ; A=1
-movw $A, %S ; S=1
-leaw $3,%A ; A=3
-movw %S, (%A) ; RAM(%A)=S
+
+leaw $1, %A
+movw %A, %S   ; S=1
+leaw $R3,%A
+movw %S, (%A) ; R3=S
