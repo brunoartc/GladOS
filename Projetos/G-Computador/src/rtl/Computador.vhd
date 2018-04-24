@@ -65,27 +65,27 @@ ARCHITECTURE logic OF Computador IS
 			  -- Sistema
         CLK_SLOW : IN  STD_LOGIC;
         CLK_FAST : IN  STD_LOGIC;
-			  RST      : IN  STD_LOGIC;
+		  RST      : IN  STD_LOGIC;
 
-			  -- RAM 16K
-			  ADDRESS		: IN STD_LOGIC_VECTOR (14 DOWNTO 0);
-			  INPUT			: IN STD_LOGIC_VECTOR (15 DOWNTO 0);
-			  LOAD			: IN STD_LOGIC ;
-			  OUTPUT	    : OUT STD_LOGIC_VECTOR (15 DOWNTO 0);
+		  -- RAM 16K
+		  ADDRESS		: IN STD_LOGIC_VECTOR (14 DOWNTO 0);
+		  INPUT			: IN STD_LOGIC_VECTOR (15 DOWNTO 0);
+		  LOAD			: IN STD_LOGIC ;
+		  OUTPUT	    : OUT STD_LOGIC_VECTOR (15 DOWNTO 0);
 
-			  -- LCD EXTERNAL I/OS
-			  LCD_CS_N     : OUT   STD_LOGIC;
-			  LCD_D        : INOUT STD_LOGIC_VECTOR(15 downto 0);
-			  LCD_RD_N     : OUT   STD_LOGIC;
-			  LCD_RESET_N  : OUT   STD_LOGIC;
-			  LCD_RS       : OUT   STD_LOGIC;	-- (DCx) 0 : reg, 1: command
-			  LCD_WR_N     : OUT   STD_LOGIC;
-			  LCD_ON       : OUT   STD_LOGIC;
-			  LCD_INIT_OK  : OUT   STD_LOGIC;
+		  -- LCD EXTERNAL I/OS
+		  LCD_CS_N     : OUT   STD_LOGIC;
+		  LCD_D        : INOUT STD_LOGIC_VECTOR(15 downto 0);
+		  LCD_RD_N     : OUT   STD_LOGIC;
+		  LCD_RESET_N  : OUT   STD_LOGIC;
+		  LCD_RS       : OUT   STD_LOGIC;	-- (DCx) 0 : reg, 1: command
+		  LCD_WR_N     : OUT   STD_LOGIC;
+		  LCD_ON       : OUT   STD_LOGIC;
+		  LCD_INIT_OK  : OUT   STD_LOGIC;
 
-			  SW  : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
-			  LED : OUT STD_LOGIC_VECTOR(9 DOWNTO 0)
-			 );
+		  SW  : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
+		  LED : OUT STD_LOGIC_VECTOR(9 DOWNTO 0)
+		 );
 	end component;
 
 	component PLL is
@@ -113,6 +113,12 @@ ARCHITECTURE logic OF Computador IS
   SIGNAL OUTPUT_RAM   : STD_LOGIC_VECTOR(15 downto 0);
   SIGNAL INSTRUCTION  : STD_LOGIC_VECTOR(15 downto 0);
   SIGNAL PC			      : STD_LOGIC_VECTOR(14 downto 0);
+  
+  SIGNAL q  : STD_LOGIC_VECTOR(15 downto 0);
+  SIGNAL OUTPUT  : STD_LOGIC_VECTOR(15 downto 0);
+  SIGNAL addressM  : STD_LOGIC_VECTOR(14 downto 0);
+  SIGNAL writeM  : STD_LOGIC;
+  SIGNAL outM  : STD_LOGIC_VECTOR(15 downto 0);
 
 
 BEGIN
@@ -125,9 +131,46 @@ BEGIN
     locked   => PLL_LOCKED
      );
 
-
+	Rom : ROM32K PORT map(
+		address => PC,
+		clock => CLK_SLOW,
+		q => instruction
+		);
+	
+	MAIN_CPU : CPU PORT map(
+		clock => CLK_SLOW,
+		inM => OUTPUT,
+		instruction => q,
+		reset => RST_CPU,
+		outM => INPUT,
+		writeM => LOAD,
+		addressM => ADDRESS,
+		pcout => PC
+		);
+	
+	Memory: MemoryIO PORT map(
+		CLK_SLOW => CLK_SLOW,
+		CLK_FAST => CLK_FAST,
+		RST => RST_MEM,
+		ADDRESS => addressM,
+		INPUT => outM,
+		LOAD => writeM,
+		OUTPUT => OUTPUT_RAM,
+		LCD_CS_N => LCD_CS_N,
+		LCD_D => LCD_D,
+		LCD_RD_N => LCD_RD_N,
+		LCD_RESET_N => LCD_RESET_N,
+		LCD_RS => LCD_RS,
+		LCD_WR_N => LCD_WR_N,
+		LCD_ON => LCD_ON,
+		LCD_INIT_OK => LCD_INIT_OK,
+		SW => SW,
+		LED => LEDR
+		);
+	  
+	  
   -- Resets
-  RST_CPU <= RESET or (not LCD_INIT_OK) or (not PLL_LOCKED); -- REINICIA CPU
+   RST_CPU <= RESET or (not LCD_INIT_OK) or (not PLL_LOCKED); -- REINICIA CPU
 	RST_MEM <= RESET or (not PLL_LOCKED);                      -- REINICIA MemoryIO
 	RESET   <= NOT RESET_N;
 
