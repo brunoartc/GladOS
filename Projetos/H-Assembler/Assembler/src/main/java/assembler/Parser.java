@@ -53,7 +53,7 @@ public class Parser {
      * @param  command instrução a ser analisada.
      * @return o tipo da instrução.
      */
-    public CommandType commandType(String command) {
+    public CommandType commandType(String command) {    	
     	return null;
     }
 
