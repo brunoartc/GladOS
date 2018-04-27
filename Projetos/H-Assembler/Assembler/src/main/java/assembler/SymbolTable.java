@@ -5,6 +5,9 @@
 
 package assembler;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Mantém uma tabela com a correspondência entre os rótulos simbólicos e endereços numéricos de memória.
  */
@@ -14,7 +17,10 @@ public class SymbolTable {
      * Cria a tabela de símbolos.
      */
     public SymbolTable() {
-
+    	Map dicio = new HashMap();
+    	
+    	dicio.put("Ram", new Double(3434.34));
+    	
     }
 
     /**
