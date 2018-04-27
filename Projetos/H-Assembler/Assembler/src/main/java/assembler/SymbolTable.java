@@ -11,16 +11,27 @@ import java.util.Map;
 /**
  * Mantém uma tabela com a correspondência entre os rótulos simbólicos e endereços numéricos de memória.
  */
-public class SymbolTable {
-
+public class SymbolTable<K, V> {
+	
+	Map<String, Integer> dicio = new HashMap();
+	
     /**
      * Cria a tabela de símbolos.
      */
     public SymbolTable() {
-    	Map dicio = new HashMap();
-    	
-    	dicio.put("Ram", new Double(3434.34));
-    	
+    	    	
+		for (int i=0; i<16; i++){
+    		dicio.put("R"+Integer.toString(i), new Integer(i));
+    	}
+    	dicio.put("SP", 0);
+    	dicio.put("SP", new Integer(0));
+    	dicio.put("LCL", new Integer(1));
+    	dicio.put("ARG", new Integer(2));
+    	dicio.put("THIS", new Integer(3));
+    	dicio.put("THAT", new Integer(4));
+    	dicio.put("SCREEN", new Integer(16384));
+    	dicio.put("LED", new Integer(21184));
+    	dicio.put("SW", new Integer(21185));
     }
 
     /**
@@ -29,7 +40,7 @@ public class SymbolTable {
      * @param  address símbolo a ser armazenado na tabela de símbolos.
      */
     public void addEntry(String symbol, int address) {
-
+    	dicio.put(symbol, address);
     }
 
     /**
@@ -38,7 +49,9 @@ public class SymbolTable {
      * @return Verdadeiro se símbolo está na tabela de símbolos, Falso se não está na tabela de símbolos.
      */
     public Boolean contains(String symbol) {
-    	return null;
+    	
+    	return dicio.containsKey(symbol);
+    	
     }
 
     /**
@@ -47,6 +60,9 @@ public class SymbolTable {
      * @return valor numérico associado ao símbolo procurado.
      */
     public Integer getAddress(String symbol) {
+    	
+    	dicio.get(symbol);
+    		
     	return null;
     }
 
