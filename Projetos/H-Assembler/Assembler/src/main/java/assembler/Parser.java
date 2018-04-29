@@ -5,13 +5,20 @@
 
 package assembler;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 /**
  * Encapsula o código de leitura. Carrega as instruções na linguagem assembly,
  * analisa, e oferece acesso as partes da instrução  (campos e símbolos).
  * Além disso, remove todos os espaços em branco e comentários.
  */
 public class Parser {
-
+	public Scanner nasmFile; //Instância Scanner que guarda as linhas do nasm
+	public String instruction; //String que representa a linha atual sendo lida
+	
+	
     /** Enumerator para os tipos de comandos do Assembler. */
     public enum CommandType {
         A_COMMAND,      // comandos LEA, que armazenam no registrador A
@@ -24,7 +31,23 @@ public class Parser {
      * @param file arquivo NASM que será feito o parser.
      */
     public Parser(String file) {
-
+    	//Abre o arquivo e salva em nasmFile
+    	try {
+			nasmFile = new Scanner(new File(file));
+		} catch (FileNotFoundException e) {
+			System.out.println("File: {" + file +  "} not found");
+			e.printStackTrace();
+		}
+    	
+    	while(nasmFile.hasNextLine()) {
+    		instruction = nasmFile.nextLine().trim(); //Lê a linha e exclui qualquer espaço às extremidades
+    		//Se a linha for vazia ou for de comentários, pula para começar direto com uma instrução de verdade
+    		if(instruction.length() == 0 || instruction.charAt(0) == ';') {
+    			instruction = nasmFile.nextLine();
+    		}
+    		else { break; }  		
+    	}
+    	
     }
 
     /**
@@ -34,7 +57,8 @@ public class Parser {
      * @return Verdadeiro se ainda há instruções, Falso se as instruções terminaram.
      */
     public Boolean advance() {
-    	return null;
+    	System.out.println(instruction);
+    	return nasmFile.hasNextLine();
     }
 
     /**
