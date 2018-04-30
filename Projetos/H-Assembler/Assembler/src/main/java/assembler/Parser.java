@@ -17,7 +17,7 @@ import java.util.Scanner;
 public class Parser {
 	public Scanner nasmFile; //Instância Scanner que guarda as linhas do nasm
 	public String instruction; //String que representa a linha atual sendo lida
-	
+
 	
     /** Enumerator para os tipos de comandos do Assembler. */
     public enum CommandType {
@@ -38,16 +38,6 @@ public class Parser {
 			System.out.println("File: {" + file +  "} not found");
 			e.printStackTrace();
 		}
-    	
-    	while(nasmFile.hasNextLine()) {
-    		instruction = nasmFile.nextLine().trim(); //Lê a linha e exclui qualquer espaço às extremidades
-    		//Se a linha for vazia ou for de comentários, pula para começar direto com uma instrução de verdade
-    		if(instruction.length() == 0 || instruction.charAt(0) == ';') {
-    			instruction = nasmFile.nextLine();
-    		}
-    		else { break; }  		
-    	}
-    	
     }
 
     /**
@@ -57,7 +47,14 @@ public class Parser {
      * @return Verdadeiro se ainda há instruções, Falso se as instruções terminaram.
      */
     public Boolean advance() {
-    	System.out.println(instruction);
+    	//Pula as linhas vazias e comentários
+    	while(nasmFile.hasNextLine()) {
+    		instruction = nasmFile.nextLine().trim();
+    		if(instruction.length() == 0 || instruction.charAt(0) == ';') {
+    			instruction = nasmFile.nextLine();
+    		}
+    		else break;
+    	}
     	return nasmFile.hasNextLine();
     }
 
@@ -66,7 +63,13 @@ public class Parser {
      * @return a instrução atual para ser analilisada
      */
     public String command() {
-    	return null;
+    	Integer commentIndex = instruction.indexOf(";");
+    	if(commentIndex != -1) {
+    		instruction = instruction.substring(0, commentIndex - 1).trim();
+    	}
+    	else instruction = instruction.trim();
+    	
+    	return instruction;
     }
 
     /**
@@ -78,7 +81,16 @@ public class Parser {
      * @return o tipo da instrução.
      */
     public CommandType commandType(String command) {    	
-    	return null;
+    	//TODO: Entender como usar enumerators
+    	if(instruction.contains("leaw")) {
+    		return CommandType.A_COMMAND;
+    	}
+    	else if(instruction.contains(":")) {
+    		return CommandType.L_COMMAND;
+    	}
+    	else {
+    		return CommandType.C_COMMAND;
+    	}
     }
 
     /**
@@ -88,7 +100,15 @@ public class Parser {
      * @return somente o símbolo ou o valor número da instrução.
      */
     public String symbol(String command) {
-    	return null;
+    	int C_index = command.indexOf("$");
+    	String symbol = "";
+    	C_index++;
+    	while(command.charAt(C_index) != ',') {
+    		symbol += command.charAt(C_index);
+    		C_index++;
+    	}
+    	
+    	return symbol;
     }
 
     /**
@@ -98,14 +118,21 @@ public class Parser {
      * @return o símbolo da instrução (sem os dois pontos).
      */
     public String label(String command) {
-    	return null;
+    	int C_index = 0;
+    	String symbol = "";
+    	while(command.charAt(C_index) != ':') {
+    		symbol += command.charAt(C_index);
+    		C_index++;
+    	}
+    	
+    	return symbol;
     }
 
     /**
      * Separa os mnemônicos da instrução fornecida em tokens em um vetor de Strings.
      * Deve ser chamado somente quando CommandType () é C_COMMAND.
      * @param  command instrução a ser analisada.
-     * @return um vetor de string contento os tokens da instrução (as partes do comando).
+     * @return um vetor de string contendo os tokens da instrução (as partes do comando).
      */
     public String[] instruction(String command) {
     	return null;
