@@ -49,9 +49,7 @@ public class SymbolTable<K, V> {
      * @return Verdadeiro se símbolo está na tabela de símbolos, Falso se não está na tabela de símbolos.
      */
     public Boolean contains(String symbol) {
-    	
     	return dicio.containsKey(symbol);
-    	
     }
 
     /**
@@ -59,11 +57,8 @@ public class SymbolTable<K, V> {
      * @param  symbol símbolo a ser procurado na tabela de símbolos.
      * @return valor numérico associado ao símbolo procurado.
      */
-    public Integer getAddress(String symbol) {
-    	
-    	dicio.get(symbol);
-    		
-    	return null;
+    public Integer getAddress(String symbol) {    		
+    	return dicio.get(symbol);
     }
 
 }
