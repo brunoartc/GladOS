@@ -101,6 +101,7 @@ public class Parser {
      */
     public String symbol(String command) {
     	int C_index = command.indexOf("$");
+    	//TODO:Atualizar para "leaw %D,%A" 
     	String symbol = "";
     	C_index++;
     	while(command.charAt(C_index) != ',') {
