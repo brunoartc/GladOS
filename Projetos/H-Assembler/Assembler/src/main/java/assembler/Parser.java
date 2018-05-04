@@ -10,13 +10,13 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 /**
- * Encapsula o código de leitura. Carrega as instruções na linguagem assembly,
- * analisa, e oferece acesso as partes da instrução  (campos e símbolos).
- * Além disso, remove todos os espaços em branco e comentários.
+ * Encapsula o cï¿½digo de leitura. Carrega as instruï¿½ï¿½es na linguagem assembly,
+ * analisa, e oferece acesso as partes da instruï¿½ï¿½o  (campos e sï¿½mbolos).
+ * Alï¿½m disso, remove todos os espaï¿½os em branco e comentï¿½rios.
  */
 public class Parser {
 	private static final Object[] String = null;
-	public Scanner nasmFile; //Instância Scanner que guarda as linhas do nasm
+	public Scanner nasmFile; //Instï¿½ncia Scanner que guarda as linhas do nasm
 	public String instruction; //String que representa a linha atual sendo lida
 
 	
@@ -24,12 +24,12 @@ public class Parser {
     public enum CommandType {
         A_COMMAND,      // comandos LEA, que armazenam no registrador A
         C_COMMAND,      // comandos de calculos
-        L_COMMAND       // comandos de Label (símbolos)
+        L_COMMAND       // comandos de Label (sï¿½mbolos)
     }
 
     /**
-     * Abre o arquivo de entrada NASM e se prepara para analisá-lo.
-     * @param file arquivo NASM que será feito o parser.
+     * Abre o arquivo de entrada NASM e se prepara para analisï¿½-lo.
+     * @param file arquivo NASM que serï¿½ feito o parser.
      */
     public Parser(String file) {
     	//Abre o arquivo e salva em nasmFile
@@ -42,26 +42,30 @@ public class Parser {
     }
 
     /**
-     * Carrega uma instrução e avança seu apontador interno para o próxima
-     * linha do arquivo de entrada. Caso não haja mais linhas no arquivo de
-     * entrada o método retorna "Falso", senão retorna "Verdadeiro".
-     * @return Verdadeiro se ainda há instruções, Falso se as instruções terminaram.
+     * Carrega uma instruï¿½ï¿½o e avanï¿½a seu apontador interno para o prï¿½xima
+     * linha do arquivo de entrada. Caso nï¿½o haja mais linhas no arquivo de
+     * entrada o mï¿½todo retorna "Falso", senï¿½o retorna "Verdadeiro".
+     * @return Verdadeiro se ainda hï¿½ instruï¿½ï¿½es, Falso se as instruï¿½ï¿½es terminaram.
      */
     public Boolean advance() {
-    	//Pula as linhas vazias e comentários
+    	//Pula as linhas vazias e comentï¿½rios
+    	Boolean next = nasmFile.hasNextLine();
     	while(nasmFile.hasNextLine()) {
     		instruction = nasmFile.nextLine().trim();
-    		if(instruction.length() == 0 || instruction.charAt(0) == ';') {
+    		if(instruction.length() == 0 || instruction.charAt(0) == ';'){
     			instruction = nasmFile.nextLine();
+    			if(instruction.length() != 0 && instruction.charAt(0) != ';'){
+    				break;
+    			}    			
     		}
     		else break;
     	}
-    	return nasmFile.hasNextLine();
+    	return next;
     }
 
     /**
-     * Retorna o comando "intrução" atual (sem o avanço)
-     * @return a instrução atual para ser analilisada
+     * Retorna o comando "intruï¿½ï¿½o" atual (sem o avanï¿½o)
+     * @return a instruï¿½ï¿½o atual para ser analilisada
      */
     public String command() {
     	Integer commentIndex = instruction.indexOf(";");
@@ -74,19 +78,19 @@ public class Parser {
     }
 
     /**
-     * Retorna o tipo da instrução passada no argumento:
+     * Retorna o tipo da instruï¿½ï¿½o passada no argumento:
      *  A_COMMAND para leaw, por exemplo leaw $1,%A
-     *  L_COMMAND para labels, por exemplo Xyz: , onde Xyz é um símbolo.
+     *  L_COMMAND para labels, por exemplo Xyz: , onde Xyz ï¿½ um sï¿½mbolo.
      *  C_COMMAND para todos os outros comandos
-     * @param  command instrução a ser analisada.
-     * @return o tipo da instrução.
+     * @param  command instruï¿½ï¿½o a ser analisada.
+     * @return o tipo da instruï¿½ï¿½o.
      */
     public CommandType commandType(String command) {    	
     	//TODO: Entender como usar enumerators
-    	if(instruction.contains("leaw")) {
+    	if(command.contains("leaw")) {
     		return CommandType.A_COMMAND;
     	}
-    	else if(instruction.contains(":")) {
+    	else if(command.contains(":")) {
     		return CommandType.L_COMMAND;
     	}
     	else {
@@ -95,10 +99,10 @@ public class Parser {
     }
 
     /**
-     * Retorna o símbolo ou valor numérico da instrução passada no argumento.
-     * Deve ser chamado somente quando commandType() é A_COMMAND.
-     * @param  command instrução a ser analisada.
-     * @return somente o símbolo ou o valor número da instrução.
+     * Retorna o sï¿½mbolo ou valor numï¿½rico da instruï¿½ï¿½o passada no argumento.
+     * Deve ser chamado somente quando commandType() ï¿½ A_COMMAND.
+     * @param  command instruï¿½ï¿½o a ser analisada.
+     * @return somente o sï¿½mbolo ou o valor nï¿½mero da instruï¿½ï¿½o.
      */
     public String symbol(String command) {
     	int C_index = command.indexOf("$");
@@ -114,10 +118,10 @@ public class Parser {
     }
 
     /**
-     * Retorna o símbolo da instrução passada no argumento.
-     * Deve ser chamado somente quando commandType() é L_COMMAND.
-     * @param  command instrução a ser analisada.
-     * @return o símbolo da instrução (sem os dois pontos).
+     * Retorna o sï¿½mbolo da instruï¿½ï¿½o passada no argumento.
+     * Deve ser chamado somente quando commandType() ï¿½ L_COMMAND.
+     * @param  command instruï¿½ï¿½o a ser analisada.
+     * @return o sï¿½mbolo da instruï¿½ï¿½o (sem os dois pontos).
      */
     public String label(String command) {
     	int C_index = 0;
@@ -131,10 +135,10 @@ public class Parser {
     }
 
     /**
-     * Separa os mnemônicos da instrução fornecida em tokens em um vetor de Strings.
-     * Deve ser chamado somente quando CommandType () é C_COMMAND.
-     * @param  command instrução a ser analisada.
-     * @return um vetor de string contendo os tokens da instrução (as partes do comando).
+     * Separa os mnemï¿½nicos da instruï¿½ï¿½o fornecida em tokens em um vetor de Strings.
+     * Deve ser chamado somente quando CommandType () ï¿½ C_COMMAND.
+     * @param  command instruï¿½ï¿½o a ser analisada.
+     * @return um vetor de string contendo os tokens da instruï¿½ï¿½o (as partes do comando).
      */
     public String[] instruction(String command) {
     	String cmd;
