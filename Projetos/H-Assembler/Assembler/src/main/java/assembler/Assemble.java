@@ -39,12 +39,22 @@ public class Assemble {
 
     /**
      * primeiro passo para a construção da tabela de símbolos de marcadores (labels)
-     * varre o código em busca de Símbolos novos Labels e Endereços de memórias
+     * varre o código em busca de Símbolos novos Labels e Endereços ed memórias
      * e atualiza a tabela de símbolos com os endereços.
      *
      * Dependencia : Parser, SymbolTable
      */
     public void fillSymbolTable() throws FileNotFoundException, IOException {
+        Parser parse = new parser(inputFile);
+
+        while (parse.advance()){
+
+            if (parse.commandType(parse.command()) == Parser.CommandType.L_COMMAND){
+
+                String label_nova = parse.label(parse.command());
+                table.addEntry(label_nova, parse.instruction_index);
+            }
+        }
     }
 
     /**
@@ -55,7 +65,40 @@ public class Assemble {
      * Dependencias : Parser, Code
      */
     public void generateMachineCode() throws FileNotFoundException, IOException{
-        Parser parser = new Parser(inputFile);  // abre o arquivo e aponta para o começo
+        Parser parse = new Parser(inputFile);  // abre o arquivo e aponta para o começo
+
+        while (parse.advance()){
+
+            String binario = "";
+            String bit_A = "0";
+            String ling_maquina = "";
+
+            if (parse.commandType(parse.command()) == Parser.CommandType.A_COMMAND){
+
+                if (table.contains(parser.symbol(parser.command()))){
+
+                    binario = Code.toBinary(String.valueOf(table.getAdress(parse.symbol(parse.command()))));
+                    ling_maquina = bit_A + binario;
+                    outHACK.write(ling_maquina);
+
+                }else{
+
+                    int simbolo = 0;
+
+                    while (!table.containsValue(simbolo)){
+
+                        simbolo++;
+                    }
+                }
+            }else{
+
+                bit_A = "1";
+                binario = Code.comp(parse.instruction(parse.command())) + Code.dest( parse.instruction(parse.command())) + Code.jump(parse.instruction(parse.command()));
+                ling_maquina = bit_A + binario;
+                outHACK.write(machine_code);
+            }
+
+        }
 
     }
 
@@ -81,4 +124,5 @@ public class Assemble {
         }
     }
 
+}
 }
