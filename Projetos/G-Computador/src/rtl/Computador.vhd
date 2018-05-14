@@ -113,8 +113,8 @@ ARCHITECTURE logic OF Computador IS
   SIGNAL OUTPUT_RAM   : STD_LOGIC_VECTOR(15 downto 0);
   SIGNAL INSTRUCTION  : STD_LOGIC_VECTOR(15 downto 0);
   SIGNAL PC			      : STD_LOGIC_VECTOR(14 downto 0);
-  
-  SIGNAL q  : STD_LOGIC_VECTOR(15 downto 0);
+
+  SIGNAL outrom  : STD_LOGIC_VECTOR(15 downto 0);
   SIGNAL OUTPUT  : STD_LOGIC_VECTOR(15 downto 0);
   SIGNAL addressM  : STD_LOGIC_VECTOR(14 downto 0);
   SIGNAL writeM  : STD_LOGIC;
@@ -131,24 +131,24 @@ BEGIN
     locked   => PLL_LOCKED
      );
 
-	Rom : ROM32K PORT map(
+	ROM : ROM32K PORT map(
 		address => PC,
 		clock => CLK_SLOW,
-		q => instruction
+		q => outrom
 		);
-	
+
 	MAIN_CPU : CPU PORT map(
 		clock => CLK_SLOW,
 		inM => OUTPUT,
-		instruction => q,
+		instruction => outrom,
 		reset => RST_CPU,
 		outM => INPUT,
 		writeM => LOAD,
 		addressM => ADDRESS,
 		pcout => PC
 		);
-	
-	Memory: MemoryIO PORT map(
+
+	MEMORY_MAPED: MemoryIO PORT map(
 		CLK_SLOW => CLK_SLOW,
 		CLK_FAST => CLK_FAST,
 		RST => RST_MEM,
@@ -167,14 +167,12 @@ BEGIN
 		SW => SW,
 		LED => LEDR
 		);
-	  
-	  
+
+
   -- Resets
    RST_CPU <= RESET or (not LCD_INIT_OK) or (not PLL_LOCKED); -- REINICIA CPU
 	RST_MEM <= RESET or (not PLL_LOCKED);                      -- REINICIA MemoryIO
 	RESET   <= NOT RESET_N;
 
-  -- LCD on
-  LCD_ON <= '1';
 
 end logic;
