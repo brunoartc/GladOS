@@ -99,24 +99,26 @@ ARCHITECTURE logic OF MemoryIO IS
           );
     end component;
 
-signal outram, leds, outgoing, lcdd : STD_LOGIC_VECTOR(15 downto 0);
-signal bolinha_load : STD_LOGIC_VECTOR(1 downto 0);
-signal load1, load2, load3, load0, lcdinit, lcdcs, lcdrd, lcdres, lcdrs, lcdwr, bolinha_sw : STD_LOGIC;
+signal outram, leds, outgoing, lcdd, sw_in_reg : STD_LOGIC_VECTOR(15 downto 0);
+signal bolinha_load,bolinha_sw : STD_LOGIC_VECTOR(1 downto 0);
+
+signal load1, load2, load3, load0, lcdinit, lcdcs, lcdrd, lcdres, lcdrs, lcdwr : STD_LOGIC;
 
 BEGIN
 
 bolinha_load <= "00" when (ADDRESS(14) = '0') else
           "01" when (ADDRESS = "101001011000000") else
           "10";
-bolinha_sw <= '1' when (ADDRESS = "101001011000001") else
-            '0';
+bolinha_sw <= "01" when (ADDRESS = "101001011000001") else
+            "00";
 
 U0 : DMux4Way port map (LOAD, bolinha_load, load1, load2, load3, load0);
 RAM : RAM16K port map (ADDRESS(13 downto 0), CLK_FAST, INPUT(15 DOWNTO 0), load1, outram);
 U2 : Register16 port map (CLK_SLOW, INPUT(15 downto 0), load2, leds);
 U4 : Screen port map (INPUT(15 DOWNTO 0), load3, ADDRESS(13 DOWNTO 0), CLK_FAST, CLK_SLOW, RST, lcdinit, lcdcs, lcdd, lcdrd, lcdres, lcdrs, lcdwr);
-U5 : Mux4Way16 port map (outram, "000000" & sw, "0000000000000000", "0000000000000000", "0" & bolinha_sw, outgoing);
+U5 : Mux4Way16 port map (outram, sw_in_reg, "0000000000000000", "0000000000000000", bolinha_sw, outgoing);
 
+sw_in_reg <="000000" & sw;
 LED <= leds(9 downto 0);
 OUTPUT <= outgoing(15 downto 0);
 LCD_CS_N <= lcdcs;

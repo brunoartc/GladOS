@@ -116,9 +116,10 @@ ARCHITECTURE logic OF Computador IS
 
   SIGNAL outrom  : STD_LOGIC_VECTOR(15 downto 0);
   SIGNAL OUTPUT  : STD_LOGIC_VECTOR(15 downto 0);
-  SIGNAL addressM  : STD_LOGIC_VECTOR(14 downto 0);
+  SIGNAL addr_Mem  : STD_LOGIC_VECTOR(14 downto 0);
   SIGNAL writeM  : STD_LOGIC;
   SIGNAL outM  : STD_LOGIC_VECTOR(15 downto 0);
+  SIGNAL out_mem : STD_LOGIC_VECTOR(15 downto 0);
 
 
 BEGIN
@@ -133,18 +134,18 @@ BEGIN
 
 	ROM : ROM32K PORT map(
 		address => PC,
-		clock => CLK_SLOW,
+		clock => CLOCK_50,
 		q => outrom
 		);
 
 	MAIN_CPU : CPU PORT map(
 		clock => CLK_SLOW,
-		inM => OUTPUT,
+		inM => OUTPUT_RAM,
 		instruction => outrom,
 		reset => RST_CPU,
-		outM => INPUT,
-		writeM => LOAD,
-		addressM => ADDRESS,
+		outM => out_mem,
+		writeM => writeM,
+		addressM => addr_Mem,
 		pcout => PC
 		);
 
@@ -152,8 +153,8 @@ BEGIN
 		CLK_SLOW => CLK_SLOW,
 		CLK_FAST => CLK_FAST,
 		RST => RST_MEM,
-		ADDRESS => addressM,
-		INPUT => outM,
+		ADDRESS => addr_Mem,
+		INPUT => out_mem,
 		LOAD => writeM,
 		OUTPUT => OUTPUT_RAM,
 		LCD_CS_N => LCD_CS_N,
