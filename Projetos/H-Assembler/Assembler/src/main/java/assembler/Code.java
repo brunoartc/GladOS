@@ -1,5 +1,6 @@
 package assembler;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -9,6 +10,8 @@ import java.util.List;
  */
 public class Code {
 
+	
+	
 	public static String funcao(String[] mnemnonic){
 
 		String[] vetor = new String[4];
@@ -17,7 +20,7 @@ public class Code {
 		vetor[2] = "0";
 		vetor[3] = "0";
 
-		for (int i = 0; i <= mnemnonic.length ;i++){
+		for (int i = 0; i < mnemnonic.length ;i++){
 			if (mnemnonic[i] == "%A"){
 				vetor[0] = "1";
 			}
@@ -39,19 +42,22 @@ public class Code {
 @@ -17,7 48,20 @@
      */
     public static String dest(String[] mnemnonic) {
+    	String[] mov = Arrays.copyOfRange(mnemnonic, 2, mnemnonic.length);
+    	String[] outro = Arrays.copyOfRange(mnemnonic, 1, mnemnonic.length);
+    	String[] outro2 = Arrays.copyOfRange(mnemnonic, 3, mnemnonic.length);
 
     	if (mnemnonic[0] == "movw"){
-    		return funcao(Arrays.copyOfRange(mnemnonic, 2, mnemnonic.length));
+    		return funcao(mov);
     	}
     	else{
     		if (mnemnonic.length == 1){
     			return "0000";
     		}
     		else if (mnemnonic.length == 2){
-    			return funcao(Arrays.copyOfRange(mnemnonic, 1, mnemnonic.length));
+    			return funcao(outro);
     		}
     		else{
-    			return funcao(Arrays.copyOfRange(mnemnonic, 3, mnemnonic.length));
+    			return funcao(outro2);
     		}
     	}
     }
@@ -75,7 +81,7 @@ public class Code {
     	List<String> lista = new ArrayList<String>();
     	lista =Arrays.asList(tmp);
     	
-//    	System.out.println(a_reg);
+    	System.out.println(lista);
     	
     	if (lista.get(0) != "movw" & lista.get(0) != "incw" & lista.get(0) != "decw" & lista.get(0) != "notw" & lista.get(0) != "negw" & lista.get(0) != "jmp" & lista.get(0) != "jg" & lista.get(0) != "je" & lista.get(0) != "jge" & lista.get(0) != "jl" & lista.get(0) != "jne" & lista.get(0) != "jle" ) {
 	    	if ((lista.contains("%A") & lista.contains("$1")) | (lista.contains("%D") & lista.contains("%1")) | (lista.contains("%D") & lista.contains("%A"))){
@@ -120,17 +126,17 @@ public class Code {
 	    	}
     	
     	else {
-			if (lista.get(1) == "%A" ) {
+			if (lista.get(1).equals("%A")) {
 				a_reg= true;
 				ab = "00";
 			}
 			
-			else if (lista.get(1)== "%D"){
+			else if (lista.get(1).equals("%D")){
 				s_reg = true;
 				ab = "00";
 			}
 			
-			else if (lista.get(1)== "%S"){
+			else if (lista.get(1).equals("%S")){
 				s_reg = true;
 				ab = "01";
 			}
@@ -140,7 +146,6 @@ public class Code {
 				ab = "10";
 			}
     	}
-
 	  
 	    	if (lista.contains("addw")) {
 	    		alu = "000010";
@@ -148,17 +153,22 @@ public class Code {
 	    	
 	    	
 	    	else if (lista.contains("movw")) {
-	    		if (lista.get(1) == "%A" | lista.get(1) =="(%A)") {
-	    			
+
+
+
+	    		if (lista.get(1).equals("%A") || lista.equals("(%A)")) {
+
 	    			alu = "110000";
 	    		}
 	    		
-	    		else if (lista.get(1) == "%D" | lista.get(1)=="%S") {
+	    		else if (lista.get(1).equals("%S") || lista.get(1).equals("%D")) {
+
 	    			alu = "001100";
 	    		}
 	    		
 	    	
 	    		}
+	    	
     		
     	
     	
@@ -243,7 +253,8 @@ public class Code {
     }
 
 
-    
+	
+
     public static String jump(String[] mnemnonic) {
     	if (mnemnonic[0] == "jmp"){
     		return "111";
@@ -273,6 +284,7 @@ public class Code {
 @@ -44,7 118,17 @@ public static String jump(String[] mnemnonic) {
      * @return Valor em binário (String de 15 bits) representado com 0s e 1s.
      */
+    
     public static String toBinary(String symbol) {
 
     	String binary = "";
@@ -287,5 +299,12 @@ public class Code {
     		}
     	}
     	return binary;
+    
     }
-}
+public static void main(String[] args) throws IOException {
+	Code a = new Code();
+	Parser p = new Parser("add.nasm");
+	String teste= a.comp(p.instruction("movw %S, %A"));
+	System.out.println(teste);
+	
+}}
