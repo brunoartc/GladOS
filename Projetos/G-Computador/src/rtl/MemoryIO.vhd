@@ -100,22 +100,22 @@ ARCHITECTURE logic OF MemoryIO IS
     end component;
 
 signal outram, leds, outgoing, lcdd : STD_LOGIC_VECTOR(15 downto 0);
-signal bolinha : STD_LOGIC_VECTOR(1 downto 0);
-signal load1, load2, load3, load0, lcdinit, lcdcs, lcdrd, lcdres, lcdrs, lcdwr, bolinha2 : STD_LOGIC;
+signal bolinha_load : STD_LOGIC_VECTOR(1 downto 0);
+signal load1, load2, load3, load0, lcdinit, lcdcs, lcdrd, lcdres, lcdrs, lcdwr, bolinha_sw : STD_LOGIC;
 
 BEGIN
 
-bolinha <= "00" when (ADDRESS(14) = '0') else
+bolinha_load <= "00" when (ADDRESS(14) = '0') else
           "01" when (ADDRESS = "101001011000000") else
           "10";
-bolinha2 <= '0' when (ADDRESS = "101001011000001") else
-            '1';
+bolinha_sw <= '1' when (ADDRESS = "101001011000001") else
+            '0';
 
-U0 : DMux4Way port map (LOAD, bolinha, load1, load2, load3, load0);
-U1 : RAM16K port map (ADDRESS(13 downto 0), CLK_FAST, INPUT(15 DOWNTO 0), load1, outram);
+U0 : DMux4Way port map (LOAD, bolinha_load, load1, load2, load3, load0);
+RAM : RAM16K port map (ADDRESS(13 downto 0), CLK_FAST, INPUT(15 DOWNTO 0), load1, outram);
 U2 : Register16 port map (CLK_SLOW, INPUT(15 downto 0), load2, leds);
 U4 : Screen port map (INPUT(15 DOWNTO 0), load3, ADDRESS(13 DOWNTO 0), CLK_FAST, CLK_SLOW, RST, lcdinit, lcdcs, lcdd, lcdrd, lcdres, lcdrs, lcdwr);
-U5 : Mux4Way16 port map (outram, "000000" & sw, "0000000000000000", "0000000000000000", bolinha, outgoing);
+U5 : Mux4Way16 port map (outram, "000000" & sw, "0000000000000000", "0000000000000000", "0" & bolinha_sw, outgoing);
 
 LED <= leds(9 downto 0);
 OUTPUT <= outgoing(15 downto 0);
