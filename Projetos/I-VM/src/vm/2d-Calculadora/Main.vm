@@ -11,7 +11,7 @@
 //  operação :
 //    3^3
 //
-//  O resultado deve ser salvo em temp 1
+//  O resultado deve ser salvo em temp 2
 //
 //  ****************************************************
 //  ** A ideia é deixar o Z01 resolver, você não deve **
@@ -19,3 +19,9 @@
 //  ****************************************************
 
 function Main.main 0
+	push constant 3
+	push constant 3
+	call pow 2
+	pop temp 2
+	label end
+	goto end
