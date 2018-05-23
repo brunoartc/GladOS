@@ -20,4 +20,3 @@ label loop
 label end
 	push local 0
 	return
-
