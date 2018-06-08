@@ -134,7 +134,7 @@ BEGIN
 
 	ROM : ROM32K PORT map(
 		address => PC,
-		clock => CLOCK_50,
+		clock => CLK_SLOW,
 		q => outrom
 		);
 
