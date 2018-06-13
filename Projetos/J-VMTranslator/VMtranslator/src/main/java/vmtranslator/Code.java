@@ -6,12 +6,10 @@
  * Adaptado por Rafael Corsi <rafael.corsi@insper.edu.br>
  * Date: 5/2018
  */
-
 package vmtranslator;
 
 import java.util.*;
 import java.io.*;
-import java.nio.file.*;
 
 /**
  * Traduz da linguagem vm para códigos assembly.
