@@ -58,19 +58,22 @@ public class Parser {
      * @return Verdadeiro se ainda hÃ¡ instruÃ§Ãµes, Falso se as instruÃ§Ãµes terminaram.
      */
     public Boolean advance() throws IOException {
-    	//Pula as linhas vazias e comentÃ¯Â¿Â½rios
-    	Boolean next = fileReader.hasNextLine();
-    	while(fileReader.hasNextLine()) {
+    	
+    	Boolean hasline = fileReader.hasNextLine();
+    	
+    	if (hasline) {
     		currentCommand = fileReader.nextLine().trim();
-    		if(currentCommand.length() == 0 || (currentCommand.charAt(0) == '/' && currentCommand.charAt(1) == '/')){
-    			currentCommand = fileReader.nextLine();
-    			if(currentCommand.length() != 0 && !(currentCommand.charAt(0) == '/' && currentCommand.charAt(1) == '/')){
-    				break;
-    			}    			
-    		}
+    	}
+    	
+    	while ((currentCommand.length() == 0 || (currentCommand.charAt(0) == '/' && currentCommand.charAt(1) == '/'))) {
+    		hasline = fileReader.hasNextLine();
+    		if (hasline) {
+    			currentCommand = fileReader.nextLine().trim();
+    		} 
     		else break;
     	}
-    	return next;
+    	
+    	return hasline;
     }
 
     /**
@@ -129,7 +132,8 @@ public class Parser {
      * @return somente o sÃ­mbolo ou o valor nÃºmero da instruÃ§Ã£o.
      */
     public String arg1(String command) {
-    	String[] resul = command.split(" ");
+    	String[] resul = new String[3];
+    	resul = command.split(" ");
     	if (this.commandType(command) != CommandType.C_RETURN) {
     		if (resul.length > 1) {
     			return resul[1];

@@ -6,10 +6,12 @@
  * Adaptado por Rafael Corsi <rafael.corsi@insper.edu.br>
  * Date: 5/2018
  */
+
 package vmtranslator;
 
 import java.util.*;
 import java.io.*;
+import java.nio.file.*;
 
 /**
  * Traduz da linguagem vm para códigos assembly.
@@ -43,31 +45,117 @@ public class Code {
 
         if(command.equals("add")) {
             commands.add(String.format("; %d - ADD", lineCode++));
-
+            commands.add("leaw $SP,%A");
+            commands.add("decw %A");
+            commands.add("movw (%A),%S");
+            commands.add("decw %A");
+            commands.add("movw (%A),%D");
+            commands.add("addw %S, %D, %S");
+            commands.add("leaw $SP,%A");
+            commands.add("leaw %S,(%A)");
+            
         } else if (command.equals("sub")) {
             commands.add(String.format("; %d - SUB", lineCode++));
-
+            commands.add("leaw $SP,%A");
+            commands.add("decw %A");
+            commands.add("movw (%A),%S");
+            commands.add("decw %A");
+            commands.add("movw (%A),%D");
+            commands.add("subw %D,%S,%S");
+            commands.add("leaw $SP,%A");
+            commands.add("leaw %S,(%A)");
         } else if (command.equals("neg")) {
             commands.add(String.format("; %d - NEG", lineCode++));
+            commands.add("leaw $SP,%A");
+            commands.add("decw %A");
+            commands.add("movw (%A),%S");
+            commands.add("negw %S");
+            commands.add("leaw %S,(%A)");
 
         } else if (command.equals("eq")) {
             commands.add(String.format("; %d - EQ", lineCode++));
-
+            commands.add("leaw $SP, %A");
+            commands.add("decw %A");
+            commands.add("movw (%A), %S");
+            commands.add("decw %A");
+            commands.add("movw (%A), %D");
+            commands.add("subw %D, %S, %D");
+            commands.add("leaw $0, %A");
+            commands.add("movw %A, %S");
+            commands.add("leaw $12, %A");
+            commands.add("jne");
+            commands.add("nop");
+            commands.add("decw %S");
+            commands.add("leaw $SP,%A");
+            commands.add("decw %A");
+            commands.add("decw %A");
+            commands.add("movw %S,(%A)");
         } else if (command.equals("gt")) {
             commands.add(String.format("; %d - GT", lineCode++));
-
+            commands.add("leaw $SP, %A");
+            commands.add("decw %A");
+            commands.add("movw (%A), %S");
+            commands.add("decw %A");
+            commands.add("movw (%A), %D");
+            commands.add("subw %D, %S, %D");
+            commands.add("leaw $0, %A");
+            commands.add("movw %A, %S");
+            commands.add("leaw $12, %A");
+            commands.add("jle");
+            commands.add("nop");
+            commands.add("decw %S");
+            commands.add("leaw $SP,%A");
+            commands.add("decw %A");
+            commands.add("decw %A");
+            commands.add("movw %S,(%A)");
+            
         } else if (command.equals("lt")) {
-            commands.add(String.format("; %d - LT", lineCode++));
+            commands.add(String.format("; %d - LTy pral leaw de nani stk pointer", lineCode++));
+            commands.add("leaw $SP, %A");
+            commands.add("decw %A");
+            commands.add("movw (%A), %S");
+            commands.add("decw %A");
+            commands.add("movw (%A), %D");
+            commands.add("subw %D, %S, %D");
+            commands.add("leaw $0, %A");
+            commands.add("movw %A, %S");
+            commands.add("leaw $12, %A");
+            commands.add("jge");
+            commands.add("nop");
+            commands.add("decw %S");
+            commands.add("leaw $SP,%A");
+            commands.add("decw %A");
+            commands.add("decw %A");
+            commands.add("movw %S,(%A)");
 
         } else if (command.equals("and")) {
             commands.add(String.format("; %d - AND", lineCode++));
+            commands.add("leaw $SP, %A");
+            commands.add("decw %A");
+            commands.add("movw (%A), %S");
+            commands.add("decw %A");
+            commands.add("movw (%A), %D");
+            commands.add("andw %D, %S, %D");
+            commands.add("movw %D,(%S)");
 
         } else if (command.equals("or")) {
-            commands.add(String.format("; %d - OR", lineCode++));
+            commands.add(String.format("; %d - OR", lineCode++));commands.add("leaw $SP, %A");
+            commands.add("leaw $SP, %A");
+            commands.add("decw %A");
+            commands.add("movw (%A), %S");
+            commands.add("decw %A");
+            commands.add("movw (%A), %D");
+            commands.add("orw %D, %S, %D");
+            commands.add("movw %D,(%S)");
 
         } else if (command.equals("not")) {
             commands.add(String.format("; %d - NOT", lineCode++));
-
+            commands.add("leaw $SP, %A");
+            commands.add("decw %A");
+            commands.add("movw (%A), %S");
+            commands.add("notw %S");
+            commands.add("movw %S,(%A)");
+            
         }
 
         String[] stringArray = new String[ commands.size() ];
@@ -96,7 +184,7 @@ public class Code {
             if (segment.equals("constant")) {
                 Error.error("Não faz sentido POP com constant");
             } else if (segment.equals("local")) {
-
+            	
             } else if (segment.equals("argument")) {
 
             } else if (segment.equals("this")) {
