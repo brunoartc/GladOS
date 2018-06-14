@@ -20,6 +20,14 @@
 ; 28 - PUSH constant 31
 ; 29 - PUSH constant 53
 ; 30 - ADD
+leaw $SP,%A
+decw %A
+movw (%A),%S
+decw %A
+movw (%A),%D
+addw %S, %D, %S
+leaw $SP,%A
+leaw %S,(%A)
 ; 31 - PUSH constant 112
 ; 35 - PUSH constant 82
 ; End

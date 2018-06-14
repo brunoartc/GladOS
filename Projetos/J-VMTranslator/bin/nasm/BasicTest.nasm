@@ -16,10 +16,34 @@
 ; 15 - PUSH local 0
 ; 16 - PUSH that 5
 ; 17 - ADD
+leaw $SP,%A
+decw %A
+movw (%A),%S
+decw %A
+movw (%A),%D
+addw %S, %D, %S
+leaw $SP,%A
+leaw %S,(%A)
 ; 18 - PUSH argument 1
 ; 20 - PUSH this 6
 ; 21 - PUSH this 6
 ; 22 - ADD
+leaw $SP,%A
+decw %A
+movw (%A),%S
+decw %A
+movw (%A),%D
+addw %S, %D, %S
+leaw $SP,%A
+leaw %S,(%A)
 ; 24 - PUSH temp 6
 ; 25 - ADD
+leaw $SP,%A
+decw %A
+movw (%A),%S
+decw %A
+movw (%A),%D
+addw %S, %D, %S
+leaw $SP,%A
+leaw %S,(%A)
 ; End

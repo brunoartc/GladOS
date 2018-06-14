@@ -8,4 +8,12 @@
 ; 7 - PUSH static 1
 ; 9 - PUSH static 8
 ; 10 - ADD
+leaw $SP,%A
+decw %A
+movw (%A),%S
+decw %A
+movw (%A),%D
+addw %S, %D, %S
+leaw $SP,%A
+leaw %S,(%A)
 ; End

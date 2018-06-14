@@ -3,7 +3,7 @@
 # 1
 # 1
 # Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 16:21:43 on Jun 14,2018
+# Start time: 17:52:45 on Jun 14,2018
 # vcom -work work Modulos/Dispositivos/RAM/RAM16K.vhd 
 # -- Loading package STANDARD
 # -- Loading package TEXTIO
@@ -11,10 +11,10 @@
 # -- Loading package altera_mf_components
 # -- Compiling entity RAM16K
 # -- Compiling architecture SYN of ram16k
-# End time: 16:21:44 on Jun 14,2018, Elapsed time: 0:00:01
+# End time: 17:52:45 on Jun 14,2018, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 16:21:44 on Jun 14,2018
+# Start time: 17:52:45 on Jun 14,2018
 # vcom -work work Modulos/Dispositivos/ROM/ROM32K.vhd 
 # -- Loading package STANDARD
 # -- Loading package TEXTIO
@@ -22,24 +22,24 @@
 # -- Loading package altera_mf_components
 # -- Compiling entity ROM32K
 # -- Compiling architecture SYN of rom32k
-# End time: 16:21:44 on Jun 14,2018, Elapsed time: 0:00:00
+# End time: 17:52:46 on Jun 14,2018, Elapsed time: 0:00:01
 # Errors: 0, Warnings: 0
 # Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 16:21:44 on Jun 14,2018
+# Start time: 17:52:46 on Jun 14,2018
 # vcom -reportprogress 300 -work work Modulos/Dispositivos/PLL/PLL_sim/PLL.vho 
 # -- Loading package STANDARD
 # -- Loading package TEXTIO
 # -- Loading package std_logic_1164
 # -- Compiling entity PLL
 # -- Compiling architecture RTL of PLL
-# End time: 16:21:44 on Jun 14,2018, Elapsed time: 0:00:00
+# End time: 17:52:46 on Jun 14,2018, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vsim work.computador_tb 
-# Start time: 16:21:45 on Jun 14,2018
+# Start time: 17:52:46 on Jun 14,2018
 # Loading std.standard
-# doVOpenFlatFile(): INTERNAL ERROR: page load failed for file C:/Users/matte/Documents/Insper/Sem_3/Elementos_de_sistemas/Z01-GladOS/Projetos/tools/Z01-Simulator-rtl-2/work/computador_tb/rtl.psm (430:430 1:1 58633 0 0 6904 0x0:0x5ae1d77f)
+# doVOpenFlatFile(): INTERNAL ERROR: page load failed for file C:/Users/matte/Documents/Insper/Sem_3/Elementos_de_sistemas/Z01-GladOS/Projetos/tools/Z01-Simulator-rtl-2/work/computador_tb/rtl.psm (432:432 1:1 58633 0 0 6904 0x0:0x5ae1d77f)
 # ** Error: (vsim-3171) Could not find machine code for 'C:/Users/matte/Documents/Insper/Sem_3/Elementos_de_sistemas/Z01-GladOS/Projetos/tools/Z01-Simulator-rtl-2/work.computador_tb(rtl)'.
 # Result too large. (errno = ERANGE)
 # Error loading design
-# End time: 16:21:46 on Jun 14,2018, Elapsed time: 0:00:01
+# End time: 17:52:46 on Jun 14,2018, Elapsed time: 0:00:00
 # Errors: 1, Warnings: 0

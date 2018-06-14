@@ -14,5 +14,13 @@ nop
 ; 13 - PUSH temp 0
 ; 14 - PUSH constant 1
 ; 15 - ADD
+leaw $SP,%A
+decw %A
+movw (%A),%S
+decw %A
+movw (%A),%D
+addw %S, %D, %S
+leaw $SP,%A
+leaw %S,(%A)
 ; 16 - POP temp 0
 ; End

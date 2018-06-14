@@ -9,7 +9,23 @@
 ; 8 - PUSH pointer 0
 ; 9 - PUSH pointer 1
 ; 10 - ADD
+leaw $SP,%A
+decw %A
+movw (%A),%S
+decw %A
+movw (%A),%D
+addw %S, %D, %S
+leaw $SP,%A
+leaw %S,(%A)
 ; 11 - PUSH this 2
 ; 13 - PUSH that 6
 ; 14 - ADD
+leaw $SP,%A
+decw %A
+movw (%A),%S
+decw %A
+movw (%A),%D
+addw %S, %D, %S
+leaw $SP,%A
+leaw %S,(%A)
 ; End

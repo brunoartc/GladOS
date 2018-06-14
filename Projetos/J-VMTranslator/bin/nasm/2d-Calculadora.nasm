@@ -14,6 +14,14 @@ nop
 ; 15 - PUSH local 0
 ; 16 - PUSH argument 0
 ; 17 - ADD
+leaw $SP,%A
+decw %A
+movw (%A),%S
+decw %A
+movw (%A),%D
+addw %S, %D, %S
+leaw $SP,%A
+leaw %S,(%A)
 ; 18 - POP local 0
 ; 19 - PUSH local 1
 ; 20 - PUSH constant 1
