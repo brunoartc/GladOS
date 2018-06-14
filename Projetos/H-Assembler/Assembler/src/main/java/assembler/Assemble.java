@@ -10,7 +10,7 @@
 package assembler;
 
 import java.io.*;
-import java.util.*;
+import java.util.Arrays;
 
 /**
  * Faz a geração do código gerenciando os demais módulos
@@ -20,7 +20,7 @@ public class Assemble {
     File hackFile = null;                  // arquivo de saída hack
     private PrintWriter outHACK = null;    // grava saida do código de máquina em Hack
     boolean debug;                         // flag que especifica se mensagens de debug são impressas
-    private SymbolTable table;             // tabela de símbolos (variáveis e marcadores)
+    private SymbolTable table = new SymbolTable();             // tabela de símbolos (variáveis e marcadores)
 
     /**
      * Retorna o código binário do mnemônico para realizar uma operação de cálculo.
@@ -33,7 +33,6 @@ public class Assemble {
         hackFile   = new File(outFileHack);                      // Cria arquivo de saída .hack
         outHACK    = new PrintWriter(new FileWriter(hackFile));  // Cria saída do print para
                                                                  // o arquivo hackfile
-        table      = new SymbolTable();                          // Cria e inicializa a tabela de simbolos
 
     }
 
@@ -45,15 +44,18 @@ public class Assemble {
      * Dependencia : Parser, SymbolTable
      */
     public void fillSymbolTable() throws FileNotFoundException, IOException {
-        Parser parse = new parser(inputFile);
-
+        Parser parse = new Parser(inputFile);
+        int linha = 0;
         while (parse.advance()){
-
+        	
             if (parse.commandType(parse.command()) == Parser.CommandType.L_COMMAND){
-
+            	System.out.println(linha);
+            	System.out.println(parse.command());
                 String label_nova = parse.label(parse.command());
-                table.addEntry(label_nova, parse.instruction_index);
+//                System.out.println(label_nova);
+                table.addEntry(label_nova, linha);
             }
+            linha ++;
         }
     }
 
@@ -72,30 +74,55 @@ public class Assemble {
             String binario = "";
             String bit_A = "0";
             String ling_maquina = "";
-
+          
             if (parse.commandType(parse.command()) == Parser.CommandType.A_COMMAND){
-
-                if (table.contains(parser.symbol(parser.command()))){
-
-                    binario = Code.toBinary(String.valueOf(table.getAdress(parse.symbol(parse.command()))));
+//               System.out.println(parse.command());
+//               System.out.println(parse.symbol(parse.command()));
+                if (table.contains(parse.symbol(parse.command()))){
+//                	System.out.println(parse.command());
+                    binario = Code.toBinary(String.valueOf(table.getAddress(parse.symbol(parse.command()))));
+//                    System.out.println(binario);
                     ling_maquina = bit_A + binario;
-                    outHACK.write(ling_maquina);
+                    outHACK.write(ling_maquina + "\n");
 
-                }else{
-
-                    int simbolo = 0;
-
-                    while (!table.containsValue(simbolo)){
-
-                        simbolo++;
-                    }
                 }
-            }else{
-
-                bit_A = "1";
-                binario = Code.comp(parse.instruction(parse.command())) + Code.dest( parse.instruction(parse.command())) + Code.jump(parse.instruction(parse.command()));
+                else {
+                
+                String teste =parse.command().replaceAll("leaw","");
+                String comando = teste.split(",")[0].substring(1);
+//                System.out.println(comando);
+                if (comando.contains("R")) {
+                	comando = comando.substring(2).replace(" ", "");
+                		
+                }
+                else {
+                comando = comando.substring(1).replace(" ", "");
+                }
+//               System.out.println(comando);
+                	
+                binario = Code.toBinary(comando);
                 ling_maquina = bit_A + binario;
-                outHACK.write(machine_code);
+                outHACK.write(ling_maquina + "\n");
+                }
+                
+                }
+           
+            else if (parse.commandType(parse.command()) == Parser.CommandType.C_COMMAND){
+                bit_A = "1";
+                if (parse.instruction(parse.command())[0].equals("nop")) {
+                	ling_maquina = "1000000000000000";
+                }
+                else {
+                	binario = Code.comp(parse.instruction(parse.command()));
+                	String dest = Code.dest(parse.instruction(parse.command()));
+                	String jump = Code.jump(parse.instruction(parse.command()));
+                	ling_maquina = bit_A + binario + dest + jump;
+                }
+//                System.out.println(parse.command());
+//                System.out.println(ling_maquina);
+
+                outHACK.write(ling_maquina + "\n");
+                
             }
 
         }
@@ -123,6 +150,14 @@ public class Assemble {
             e.printStackTrace();
         }
     }
+}
+//
+//
+//public static void main(String[] args) throws IOException {
+//		Assemble a = new Assemble("add.nasm","teste", true);
+//		a.fillSymbolTable();
+//		a.generateMachineCode();
+//		
+//	}}
 
-}
-}
+

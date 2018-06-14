@@ -1,5 +1,6 @@
 package assembler;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -9,6 +10,8 @@ import java.util.List;
  */
 public class Code {
 
+	
+	
 	public static String funcao(String[] mnemnonic){
 
 		String[] vetor = new String[4];
@@ -17,21 +20,21 @@ public class Code {
 		vetor[2] = "0";
 		vetor[3] = "0";
 
-		for (int i = 0; i <= mnemnonic.length ;i++){
-			if (mnemnonic[i] == "%A"){
+		for (int i = 0; i < mnemnonic.length ;i++){
+			if (mnemnonic[i].equals("%A")){
 				vetor[0] = "1";
 			}
-			else if (mnemnonic[i] == "%S"){
+			else if (mnemnonic[i].equals("%S")){
 				vetor[1] = "1";
 			}
-			else if (mnemnonic[i] == "%D"){
+			else if (mnemnonic[i].equals("%D")){
 				vetor[2] = "1";
 			}
-			else if (mnemnonic[i] == "(%A)"){
+			else if (mnemnonic[i].equals("(%A)")){
 				vetor[3] = "1";
 			}
 		}
-		return vetor.toString();
+		return String.join("", vetor);
 	}
 
     /**
@@ -39,19 +42,26 @@ public class Code {
 @@ -17,7 48,20 @@
      */
     public static String dest(String[] mnemnonic) {
+//    	System.out.println(mnemnonic[0]);
+    	if (mnemnonic[0].equals("movw")){
+    		String[] mov = Arrays.copyOfRange(mnemnonic, 2, mnemnonic.length);
 
-    	if (mnemnonic[0] == "movw"){
-    		return funcao(Arrays.copyOfRange(mnemnonic, 2, mnemnonic.length));
+    		return funcao(mov);
     	}
     	else{
     		if (mnemnonic.length == 1){
     			return "0000";
     		}
     		else if (mnemnonic.length == 2){
-    			return funcao(Arrays.copyOfRange(mnemnonic, 1, mnemnonic.length));
+    	    	String[] outro = Arrays.copyOfRange(mnemnonic, 1, mnemnonic.length);
+
+    			return funcao(outro);
     		}
     		else{
-    			return funcao(Arrays.copyOfRange(mnemnonic, 3, mnemnonic.length));
+    	    	String[] outro2 = Arrays.copyOfRange(mnemnonic, 3, mnemnonic.length);
+
+    			return funcao(outro2);
+    			
     		}
     	}
     }
@@ -75,10 +85,11 @@ public class Code {
     	List<String> lista = new ArrayList<String>();
     	lista =Arrays.asList(tmp);
     	
-//    	System.out.println(a_reg);
+//    	System.out.println(lista);
     	
-    	if (lista.get(0) != "movw" & lista.get(0) != "incw" & lista.get(0) != "decw" & lista.get(0) != "notw" & lista.get(0) != "negw" & lista.get(0) != "jmp" & lista.get(0) != "jg" & lista.get(0) != "je" & lista.get(0) != "jge" & lista.get(0) != "jl" & lista.get(0) != "jne" & lista.get(0) != "jle" ) {
-	    	if ((lista.contains("%A") & lista.contains("$1")) | (lista.contains("%D") & lista.contains("%1")) | (lista.contains("%D") & lista.contains("%A"))){
+    	if (!lista.get(0).equals("movw") & !lista.get(0).equals("incw") & !lista.get(0).equals("decw") & !lista.get(0).equals("notw") & !lista.get(0).equals("negw") & !lista.get(0).equals("jmp") & !lista.get(0).equals("jg") & !lista.get(0).equals("je") & !lista.get(0).equals("jge") & !lista.get(0).equals("jl") & !lista.get(0).equals("jne") & !lista.get(0).equals("jle") ) {
+//    		System.out.println('a');
+    		if ((lista.contains("%A") & lista.contains("$1")) | (lista.contains("%D") & lista.contains("%1")) | (lista.contains("%D") & lista.contains("%A"))){
 	    		if (lista.contains("%A") & lista.contains("$1")) {
 	    			a_reg = true;
 	    		}
@@ -120,17 +131,23 @@ public class Code {
 	    	}
     	
     	else {
-			if (lista.get(1) == "%A" ) {
+//			System.out.println(lista);
+//    		System.out.println(lista.get(0));
+    		if (!lista.get(0).equals("jmp") && !lista.get(0).equals("nop")) {
+		
+    		
+    		if(lista.size() > 1 && lista.get(1) != null) {
+			if (lista.get(1).equals("%A")) {
 				a_reg= true;
 				ab = "00";
 			}
 			
-			else if (lista.get(1)== "%D"){
+			else if (lista.get(1).equals("%D")){
 				s_reg = true;
 				ab = "00";
 			}
 			
-			else if (lista.get(1)== "%S"){
+			else if (lista.get(1).equals("%S")){
 				s_reg = true;
 				ab = "01";
 			}
@@ -138,9 +155,15 @@ public class Code {
 			else {
 				a_reg = true;
 				ab = "10";
-			}
+			}}
+    		}
+    		else {
+    			s_reg = true;
+				ab = "00";
+    		}
+    		
+    		
     	}
-
 	  
 	    	if (lista.contains("addw")) {
 	    		alu = "000010";
@@ -148,26 +171,41 @@ public class Code {
 	    	
 	    	
 	    	else if (lista.contains("movw")) {
-	    		if (lista.get(1) == "%A" | lista.get(1) =="(%A)") {
-	    			
+
+
+
+	    		if (lista.get(1).equals("%A") || lista.get(1).equals("(%A)")) {
+
 	    			alu = "110000";
 	    		}
 	    		
-	    		else if (lista.get(1) == "%D" | lista.get(1)=="%S") {
+	    		else if (lista.get(1).equals("%S") || lista.get(1).equals("%D")) {
+
 	    			alu = "001100";
 	    		}
 	    		
 	    	
 	    		}
+	    	
     		
     	
     	
     	else if (lista.contains("subw")) {
-    		if (lista.contains("$1")) {
-    			alu = "110010";
+    		if (lista.get(1).equals("%A") ||lista.get(1).equals("(%A)") ) {
+    			if (lista.contains("$1")) {
+    				alu = "110010";
+    			}
+    			else {
+    				alu = "000111";
+    			}
     		}
     		else {
-    		alu = "010011";
+    			if (lista.contains("$1")) {
+    				alu = "001110";
+    			}
+    			else {
+    				alu = "010011";
+    			}
     		}
     		
     	}
@@ -228,7 +266,7 @@ public class Code {
     		alu = "010101";
     	}
 	    	
-	    
+	   
     	else {
     		if (a_reg == true) {
     			alu = "110000";
@@ -243,36 +281,39 @@ public class Code {
     }
 
 
-    
+	
+
     public static String jump(String[] mnemnonic) {
-    	if (mnemnonic[0] == "jmp"){
+    	if (mnemnonic[0].equals("jmp")){
     		return "111";
     	}
-    	if (mnemnonic[0] == "je"){
+    	if (mnemnonic[0].equals("je")){
     		return "010";
     	}
-    	if (mnemnonic[0] == "jne"){
+    	if (mnemnonic[0].equals("jne")){
     		return "101";
     	}
-    	if (mnemnonic[0] == "jg"){
+    	if (mnemnonic[0].equals("jg")){
     		return "001";
     	}
-    	if (mnemnonic[0] == "jge"){
+    	if (mnemnonic[0].equals("jge")){
     		return "011";
     	}
-    	if (mnemnonic[0] == "jl"){
+    	if (mnemnonic[0].equals("jl")){
     		return "100";
     	}
-    	if (mnemnonic[0] == "jle"){
+    	if (mnemnonic[0].equals("jle")){
     		return "110";
     	}
     	return "000";
     }
 
     /**
+     * 
 @@ -44,7 118,17 @@ public static String jump(String[] mnemnonic) {
      * @return Valor em binário (String de 15 bits) representado com 0s e 1s.
      */
+    
     public static String toBinary(String symbol) {
 
     	String binary = "";
@@ -287,5 +328,17 @@ public class Code {
     		}
     	}
     	return binary;
+    
     }
-}
+
+    public static void main(String[] args)  {
+		Code code = new Code();
+		String[] teste = new String[] {"movw","%S","%A"};
+		System.out.print(code.dest(teste));
+	
+	}}
+
+
+
+
+	
