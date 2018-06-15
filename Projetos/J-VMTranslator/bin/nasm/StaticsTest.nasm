@@ -3,25 +3,116 @@ leaw $Main.main, %A
 jmp
 nop
 ; 1 - PUSH argument 0
+leaw $ARG,%A
+movw (%A),%A
+movw %A,%D
+leaw $0,%A
+addw %A,%D,%A
+movw (%A),%D
+leaw $SP,%A
+movw (%A),%A
+movw %D,(%A)
+leaw $SP,%A
+movw (%A),%A
+incw %A
+movw %A,%S
+leaw $SP,%A
+movw %S,(%A)
 ; 2 - POP static 0
-leaw $SP, %A
+leaw $SP,%A
+movw (%A),%A
 decw %A
-movw (%A), %D
-leaw $16, %A
-leaw $D, %A
+movw (%A),%S
+leaw $STATIC,%A
+movw (%A),%A
+movw %A,%D
+leaw $0,%A
+addw %A,%D,%A
+movw %S,(%A)
+leaw $SP,%A
+movw (%A),%A
+decw %A
+movw %A,%D
+leaw $SP,%A
+movw %D,(%A)
 ; 3 - PUSH argument 1
+leaw $ARG,%A
+movw (%A),%A
+movw %A,%D
+leaw $1,%A
+addw %A,%D,%A
+movw (%A),%D
+leaw $SP,%A
+movw (%A),%A
+movw %D,(%A)
+leaw $SP,%A
+movw (%A),%A
+incw %A
+movw %A,%S
+leaw $SP,%A
+movw %S,(%A)
 ; 4 - POP static 1
-leaw $SP, %A
+leaw $SP,%A
+movw (%A),%A
 decw %A
-movw (%A), %D
-leaw $17, %A
-leaw $D, %A
+movw (%A),%S
+leaw $STATIC,%A
+movw (%A),%A
+movw %A,%D
+leaw $1,%A
+addw %A,%D,%A
+movw %S,(%A)
+leaw $SP,%A
+movw (%A),%A
+decw %A
+movw %A,%D
+leaw $SP,%A
+movw %D,(%A)
 ; 5 - PUSH constant 0
-leaw $SP, %A
-leaw $0, %D
-movw %D, (%A)
+leaw $SP,%A
+movw (%A),%A
+incw %A
+movw %A,%D
+leaw $SP,%A
+movw %D,(%A)
+leaw $0,%A
+movw %A,%D
+leaw $SP,%A
+movw (%A),%A
+decw %A
+movw %D,(%A)
 ; 8 - PUSH static 0
+leaw $STATIC,%A
+movw (%A),%A
+movw %A,%D
+leaw $0,%A
+addw %A,%D,%A
+movw (%A),%D
+leaw $SP,%A
+movw (%A),%A
+movw %D,(%A)
+leaw $SP,%A
+movw (%A),%A
+incw %A
+movw %A,%S
+leaw $SP,%A
+movw %S,(%A)
 ; 9 - PUSH static 1
+leaw $STATIC,%A
+movw (%A),%A
+movw %A,%D
+leaw $1,%A
+addw %A,%D,%A
+movw (%A),%D
+leaw $SP,%A
+movw (%A),%A
+movw %D,(%A)
+leaw $SP,%A
+movw (%A),%A
+incw %A
+movw %A,%S
+leaw $SP,%A
+movw %S,(%A)
 ; 10 - SUB
 leaw $SP,%A
 movw (%A),%A
@@ -40,25 +131,116 @@ movw %S,(%A)
 leaw $SP,%A
 movw %D,(%A)
 ; 13 - PUSH argument 0
+leaw $ARG,%A
+movw (%A),%A
+movw %A,%D
+leaw $0,%A
+addw %A,%D,%A
+movw (%A),%D
+leaw $SP,%A
+movw (%A),%A
+movw %D,(%A)
+leaw $SP,%A
+movw (%A),%A
+incw %A
+movw %A,%S
+leaw $SP,%A
+movw %S,(%A)
 ; 14 - POP static 0
-leaw $SP, %A
+leaw $SP,%A
+movw (%A),%A
 decw %A
-movw (%A), %D
-leaw $16, %A
-leaw $D, %A
+movw (%A),%S
+leaw $STATIC,%A
+movw (%A),%A
+movw %A,%D
+leaw $0,%A
+addw %A,%D,%A
+movw %S,(%A)
+leaw $SP,%A
+movw (%A),%A
+decw %A
+movw %A,%D
+leaw $SP,%A
+movw %D,(%A)
 ; 15 - PUSH argument 1
+leaw $ARG,%A
+movw (%A),%A
+movw %A,%D
+leaw $1,%A
+addw %A,%D,%A
+movw (%A),%D
+leaw $SP,%A
+movw (%A),%A
+movw %D,(%A)
+leaw $SP,%A
+movw (%A),%A
+incw %A
+movw %A,%S
+leaw $SP,%A
+movw %S,(%A)
 ; 16 - POP static 1
-leaw $SP, %A
+leaw $SP,%A
+movw (%A),%A
 decw %A
-movw (%A), %D
-leaw $17, %A
-leaw $D, %A
+movw (%A),%S
+leaw $STATIC,%A
+movw (%A),%A
+movw %A,%D
+leaw $1,%A
+addw %A,%D,%A
+movw %S,(%A)
+leaw $SP,%A
+movw (%A),%A
+decw %A
+movw %A,%D
+leaw $SP,%A
+movw %D,(%A)
 ; 17 - PUSH constant 0
-leaw $SP, %A
-leaw $0, %D
-movw %D, (%A)
+leaw $SP,%A
+movw (%A),%A
+incw %A
+movw %A,%D
+leaw $SP,%A
+movw %D,(%A)
+leaw $0,%A
+movw %A,%D
+leaw $SP,%A
+movw (%A),%A
+decw %A
+movw %D,(%A)
 ; 20 - PUSH static 0
+leaw $STATIC,%A
+movw (%A),%A
+movw %A,%D
+leaw $0,%A
+addw %A,%D,%A
+movw (%A),%D
+leaw $SP,%A
+movw (%A),%A
+movw %D,(%A)
+leaw $SP,%A
+movw (%A),%A
+incw %A
+movw %A,%S
+leaw $SP,%A
+movw %S,(%A)
 ; 21 - PUSH static 1
+leaw $STATIC,%A
+movw (%A),%A
+movw %A,%D
+leaw $1,%A
+addw %A,%D,%A
+movw (%A),%D
+leaw $SP,%A
+movw (%A),%A
+movw %D,(%A)
+leaw $SP,%A
+movw (%A),%A
+incw %A
+movw %A,%S
+leaw $SP,%A
+movw %S,(%A)
 ; 22 - SUB
 leaw $SP,%A
 movw (%A),%A
@@ -77,31 +259,87 @@ movw %S,(%A)
 leaw $SP,%A
 movw %D,(%A)
 ; 25 - PUSH constant 6
-leaw $SP, %A
-leaw $6, %D
-movw %D, (%A)
+leaw $SP,%A
+movw (%A),%A
+incw %A
+movw %A,%D
+leaw $SP,%A
+movw %D,(%A)
+leaw $6,%A
+movw %A,%D
+leaw $SP,%A
+movw (%A),%A
+decw %A
+movw %D,(%A)
 ; 26 - PUSH constant 8
-leaw $SP, %A
-leaw $8, %D
-movw %D, (%A)
+leaw $SP,%A
+movw (%A),%A
+incw %A
+movw %A,%D
+leaw $SP,%A
+movw %D,(%A)
+leaw $8,%A
+movw %A,%D
+leaw $SP,%A
+movw (%A),%A
+decw %A
+movw %D,(%A)
 ; 28 - POP temp 0
-leaw $SP, %A
+leaw $SP,%A
+movw (%A),%A
 decw %A
-movw (%A), %D
-leaw $5, %A
-leaw $D, %A
+movw (%A),%S
+leaw $5,%A
+movw %A,%D
+leaw $0,%A
+addw %A,%D,%A
+movw %S,(%A)
+leaw $SP,%A
+movw (%A),%A
+decw %A
+movw %A,%D
+leaw $SP,%A
+movw %D,(%A)
 ; 29 - PUSH constant 23
-leaw $SP, %A
-leaw $23, %D
-movw %D, (%A)
-; 30 - PUSH constant 15
-leaw $SP, %A
-leaw $15, %D
-movw %D, (%A)
-; 32 - POP temp 0
-leaw $SP, %A
+leaw $SP,%A
+movw (%A),%A
+incw %A
+movw %A,%D
+leaw $SP,%A
+movw %D,(%A)
+leaw $23,%A
+movw %A,%D
+leaw $SP,%A
+movw (%A),%A
 decw %A
-movw (%A), %D
-leaw $5, %A
-leaw $D, %A
+movw %D,(%A)
+; 30 - PUSH constant 15
+leaw $SP,%A
+movw (%A),%A
+incw %A
+movw %A,%D
+leaw $SP,%A
+movw %D,(%A)
+leaw $15,%A
+movw %A,%D
+leaw $SP,%A
+movw (%A),%A
+decw %A
+movw %D,(%A)
+; 32 - POP temp 0
+leaw $SP,%A
+movw (%A),%A
+decw %A
+movw (%A),%S
+leaw $5,%A
+movw %A,%D
+leaw $0,%A
+addw %A,%D,%A
+movw %S,(%A)
+leaw $SP,%A
+movw (%A),%A
+decw %A
+movw %A,%D
+leaw $SP,%A
+movw %D,(%A)
 ; End

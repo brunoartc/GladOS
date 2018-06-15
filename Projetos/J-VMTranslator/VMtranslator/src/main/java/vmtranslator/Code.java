@@ -104,7 +104,7 @@ public class Code {
             commands.add("subw %A, %S, %D");
             commands.add("leaw $0, %A");
             commands.add("movw %A, %S");
-            commands.add("leaw $14, %A");
+            commands.add("leaw $" + Integer.toString(commands.size() + 3) + ", %A");
             commands.add("jne");
             commands.add("nop");
             commands.add("decw %S");
@@ -115,7 +115,7 @@ public class Code {
             commands.add("subw %A, %S, %D");
             commands.add("leaw $0, %A");
             commands.add("movw %A, %S");
-            commands.add("leaw $14, %A");
+            commands.add("leaw $" + Integer.toString(commands.size() + 3) + ", %A");
             commands.add("jle");
             commands.add("nop");
             commands.add("decw %S");
@@ -127,7 +127,7 @@ public class Code {
             commands.add("subw %A, %S, %D");
             commands.add("leaw $0, %A");
             commands.add("movw %A, %S");
-            commands.add("leaw $14, %A");
+            commands.add("leaw $" + Integer.toString(commands.size() + 3) + ", %A");
             commands.add("jge");
             commands.add("nop");
             commands.add("decw %S");
@@ -152,8 +152,7 @@ public class Code {
             commands.add("decw %A");
             commands.add("movw (%A),%D");
             commands.add("notw %D");
-            commands.add("movw %D,(%A)");
-            
+            commands.add("movw %D,(%A)");   
         }
 
         String[] stringArray = new String[ commands.size() ];
@@ -165,22 +164,53 @@ public class Code {
     public void subSP(List<String> commands) {
     	commands.add("leaw $SP,%A");
         commands.add("movw (%A),%A");
-        
         commands.add("decw %A"); // A = 257
         commands.add("movw %A,%D"); // D = A = 257
-//        commands.add("decw %A"); // A = 256
-//        commands.add("movw %S,(%A)"); // RAM(256) = S
-        //Salva S em RAM 256
         commands.add("leaw $SP,%A"); // A = 0
         commands.add("movw %D,(%A)"); // RAM(0) = 257
-//    	commands.add("leaw $SP, %A");
-//    	commands.add("movw (%A), %A");
-//    	commands.add("decw %A");
-//    	commands.add("movw %A, %D");
-//    	commands.add("leaw $SP, %A");
-//    	commands.add("movw %D, (%A)");
+    }
+    
+    public void incSP(List<String> commands) {
+    	commands.add("leaw $SP,%A");
+        commands.add("movw (%A),%A");
+        commands.add("incw %A"); // A = 257
+        commands.add("movw %A,%D"); // D = A = 257
+        commands.add("leaw $SP,%A"); // A = 0
+        commands.add("movw %D,(%A)"); // RAM(0) = 257
     }
 
+    public void popper(List<String> commands, String memory, Integer idx) {
+    	SPinA(commands);
+    	LAinS(commands);
+    	commands.add("leaw $" + memory + ",%A");
+    	commands.add("movw (%A),%A");
+    	commands.add("movw %A,%D");
+    	commands.add("leaw $" + idx.toString() + ",%A");
+    	commands.add("addw %A,%D,%A");
+    	commands.add("movw %S,(%A)");
+    	subSP(commands);
+    }
+    
+    public void pusher(List<String> commands, String memory, Integer idx) {
+    	commands.add("leaw $" + memory + ",%A");
+    	if (memory != "R5") {
+    		commands.add("movw (%A),%A");
+    	}
+    	commands.add("movw %A,%D");
+    	commands.add("leaw $" + idx.toString() + ",%A");
+    	commands.add("addw %A,%D,%A");
+    	commands.add("movw (%A),%D");
+    	commands.add("leaw $SP,%A");
+    	commands.add("movw (%A),%A");
+    	commands.add("movw %D,(%A)");
+    	commands.add("leaw $SP,%A");
+    	commands.add("movw (%A),%A");
+    	commands.add("incw %A");
+    	commands.add("movw %A,%S");
+    	commands.add("leaw $SP,%A");
+    	commands.add("movw %S,(%A)");
+    }
+    
     /**
      * Grava no arquivo de saida as instruções em Assembly para executar o comando de Push ou Pop.
      * @param  command comando de push ou pop a ser analisado.
@@ -201,63 +231,37 @@ public class Code {
             if (segment.equals("constant")) {
                 Error.error("Não faz sentido POP com constant");
             } else if (segment.equals("local")) {
-            	commands.add("leaw $R0, %A");
-            	commands.add("movw %A, %D");
-            	commands.add("movw %D, (%A)");
-            	// RAFA!!! ABAIXO DESSAS LINHAS É O CODIGO
-            	// DE VERDADE, ACIMA É UM TESTE PRA FORCAR
-            	// A RAM(0) A SER 0 PRA VER SE ELA MUDA DE
-            	// QUALQUER FORMA, O QUE NAO FUNCIONOU.
-//            	commands.add("movw (%A), %A");
-//            	commands.add("movw %A, %S");
-//            	commands.add("leaw $" + index.toString() + ", %A");
-//            	commands.add("addw %A,%S,%S");
-//            	SPinA(commands);
-//            	commands.add("decw %A");
-//            	commands.add("movw (%A), %D");
-//            	commands.add("movw %S, %A");
-//            	commands.add("movw %D, (%A)");
-//            	subSP(commands);
+            	popper(commands,"LCL",index);
             } else if (segment.equals("argument")) {
-//            	index += 2;
-//            	commands.add("leaw $SP, %A");
-//            	commands.add("decw %A");
-//            	commands.add("movw (%A), %D");
-//            	commands.add("leaw $" + index.toString() + ", %A");
-//            	commands.add("leaw $D, %A");
+            	popper(commands,"ARG",index);
             } else if (segment.equals("this")) {
-            	
-//            	index += 3;
-//            	commands.add("leaw $SP, %A");
-//            	commands.add("decw %A");
-//            	commands.add("movw (%A), %D");
-//            	commands.add("leaw $" + index.toString() + ", %A");
-//            	commands.add("leaw $D, %A");
+            	popper(commands,"THIS",index);
             } else if (segment.equals("that")) {
-//            	index += 4;
-//            	commands.add("leaw $SP, %A");
-//            	commands.add("decw %A");
-//            	commands.add("movw (%A), %D");
-//            	commands.add("leaw $" + index.toString() + ", %A");
-//            	commands.add("leaw $D, %A");
+            	popper(commands,"THAT",index);
             } else if (segment.equals("static")) {
-//            	index += 16;
-//            	commands.add("leaw $SP, %A");
-//            	commands.add("decw %A");
-//            	commands.add("movw (%A), %D");
-//            	commands.add("leaw $" + index.toString() + ", %A");
-//            	commands.add("leaw $D, %A");
+            	popper(commands,"STATIC",index);
             } else if (segment.equals("temp")) {
-//            	index += 5;
-//            	commands.add("leaw $SP, %A");
-//            	commands.add("decw %A");
-//            	commands.add("movw (%A), %D");
-//            	commands.add("leaw $" + index.toString() + ", %A");
-//            	commands.add("leaw $D, %A");
+            	SPinA(commands);
+            	LAinS(commands);
+            	commands.add("leaw $5,%A");
+            	commands.add("movw %A,%D");
+            	commands.add("leaw $" + index.toString() + ",%A");
+            	commands.add("addw %A,%D,%A");
+            	commands.add("movw %S,(%A)");
+            	subSP(commands);
             } else if (segment.equals("pointer")) {
                 if(index==0) {
-                	
+                	SPinA(commands);
+                	LAinS(commands);
+                	commands.add("leaw $THIS,%A");
+                	commands.add("movw %S,(%A)");
+                	subSP(commands);
                 } else {
+                	SPinA(commands);
+                	LAinS(commands);
+                	commands.add("leaw $THAT,%A");
+                	commands.add("movw %S,(%A)");
+                	subSP(commands);
 
                 }
             }
@@ -265,26 +269,51 @@ public class Code {
             commands.add(String.format("; %d - PUSH %s %d", lineCode++ ,segment, index));
 
             if (segment.equals("constant")) {
-//            	commands.add("leaw $SP, %A");
-//            	commands.add("leaw $"+index.toString()+", %D");
-//            	commands.add("movw %D, (%A)");
+            	incSP(commands);
+                commands.add("leaw $" + index.toString() + ",%A");
+            	commands.add("movw %A,%D");
+            	SPinA(commands);
+            	commands.add("decw %A");
+            	commands.add("movw %D,(%A)");
             } else if (segment.equals("local")) {
-
+            	pusher(commands, "LCL", index);
             } else if (segment.equals("argument")) {
-
+            	pusher(commands, "ARG", index);
             } else if (segment.equals("this")) {
-
+            	pusher(commands, "THIS", index);
             } else if (segment.equals("that")) {
-
+            	pusher(commands, "THAT", index);
             } else if (segment.equals("static")) {
-
+            	pusher(commands, "STATIC", index);
             } else if (segment.equals("temp")) {
-
+            	pusher(commands, "R5", index);
             } else if (segment.equals("pointer")) {
                 if(index==0) {
-
+                	commands.add("leaw $THIS,%A");
+                	commands.add("movw (%A),%A");
+                	commands.add("movw %A,%D");
+                	commands.add("leaw $SP,%A");
+                	commands.add("movw (%A),%A");
+                	commands.add("movw %D,(%A)");
+                	commands.add("leaw $SP,%A");
+                	commands.add("movw (%A),%A");
+                	commands.add("incw %A");
+                	commands.add("movw %A,%S");
+                	commands.add("leaw $SP,%A");
+                	commands.add("movw %S,(%A)");
                 } else {
-
+                	commands.add("leaw $THAT,%A");
+                	commands.add("movw (%A),%A");
+                	commands.add("movw %A,%D");
+                	commands.add("leaw $SP,%A");
+                	commands.add("movw (%A),%A");
+                	commands.add("movw %D,(%A)");
+                	commands.add("leaw $SP,%A");
+                	commands.add("movw (%A),%A");
+                	commands.add("incw %A");
+                	commands.add("movw %A,%S");
+                	commands.add("leaw $SP,%A");
+                	commands.add("movw %S,(%A)");
                 }
             }
         }

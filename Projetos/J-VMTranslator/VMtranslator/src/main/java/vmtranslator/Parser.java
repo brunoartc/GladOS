@@ -134,6 +134,7 @@ public class Parser {
     public String arg1(String command) {
     	String[] resul = command.split(" ");
     	if (resul.length > 1) {
+    		System.out.println(resul.length);
     		return resul[1];
     	} else {
     		return command;

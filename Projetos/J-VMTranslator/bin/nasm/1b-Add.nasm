@@ -3,13 +3,31 @@ leaw $Main.main, %A
 jmp
 nop
 ; 1 - PUSH constant 5
-leaw $SP, %A
-leaw $5, %D
-movw %D, (%A)
+leaw $SP,%A
+movw (%A),%A
+incw %A
+movw %A,%D
+leaw $SP,%A
+movw %D,(%A)
+leaw $5,%A
+movw %A,%D
+leaw $SP,%A
+movw (%A),%A
+decw %A
+movw %D,(%A)
 ; 2 - PUSH constant 9
-leaw $SP, %A
-leaw $9, %D
-movw %D, (%A)
+leaw $SP,%A
+movw (%A),%A
+incw %A
+movw %A,%D
+leaw $SP,%A
+movw %D,(%A)
+leaw $9,%A
+movw %A,%D
+leaw $SP,%A
+movw (%A),%A
+decw %A
+movw %D,(%A)
 ; 3 - ADD
 leaw $SP,%A
 movw (%A),%A
@@ -28,9 +46,19 @@ movw %S,(%A)
 leaw $SP,%A
 movw %D,(%A)
 ; 4 - POP temp 0
-leaw $SP, %A
+leaw $SP,%A
+movw (%A),%A
 decw %A
-movw (%A), %D
-leaw $5, %A
-leaw $D, %A
+movw (%A),%S
+leaw $5,%A
+movw %A,%D
+leaw $0,%A
+addw %A,%D,%A
+movw %S,(%A)
+leaw $SP,%A
+movw (%A),%A
+decw %A
+movw %A,%D
+leaw $SP,%A
+movw %D,(%A)
 ; End
