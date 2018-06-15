@@ -96,7 +96,7 @@ public class Parser {
     		return CommandType.C_PUSH;
     	} else if (command.contains("pop")) {
     		return CommandType.C_POP;
-    	} else if (command.contains("add")) {
+    	} else if (command.contains("add") || command.contains("neg") || command.contains("sub") || command.contains("eq") || command.contains("gt") || command.contains("lt") || command.contains("and") || command.contains("or")) {
     		return CommandType.C_ARITHMETIC;
     	} else if (command.contains("label")) {
     		return CommandType.C_LABEL;
@@ -132,14 +132,9 @@ public class Parser {
      * @return somente o sÃ­mbolo ou o valor nÃºmero da instruÃ§Ã£o.
      */
     public String arg1(String command) {
-    	String[] resul = new String[3];
-    	resul = command.split(" ");
-    	if (this.commandType(command) != CommandType.C_RETURN) {
-    		if (resul.length > 1) {
-    			return resul[1];
-    		} else {
-    			return command;
-    		}
+    	String[] resul = command.split(" ");
+    	if (resul.length > 1) {
+    		return resul[1];
     	} else {
     		return command;
     	}
@@ -152,14 +147,10 @@ public class Parser {
      * @return o sÃ­mbolo da instruÃ§Ã£o (sem os dois pontos).
      */
     public Integer arg2(String command) {
-    	String[] resul = new String[3];
-    	resul = command.split(" ");
-    	if (this.commandType(command) != CommandType.C_RETURN) {
-    		if (resul.length > 1) {
-    			return Integer.parseInt(resul[2]);
-    		} else {
-    			return null;
-    		}
+    	String[] resul = command.split(" ");
+//    	System.out.println(resul.length);
+    	if (resul.length > 1) {
+    		return Integer.parseInt(resul[2]);
     	} else {
     		return null;
     	}

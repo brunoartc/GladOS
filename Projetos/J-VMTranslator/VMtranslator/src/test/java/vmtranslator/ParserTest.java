@@ -87,6 +87,7 @@ public class ParserTest {
 			assertTrue("push constant 0",parser.arg1("push constant 0").equals("constant"));
 			assertTrue("push constant 1234",parser.arg1("push constant 1234").equals("constant"));
 			assertTrue("push local 2",parser.arg1("push local 2").equals("local"));
+			assertTrue("pop local 2",parser.arg1("pop local 2").equals("local"));
 			assertTrue("pop temp 3",parser.arg1("pop temp 3").equals("temp"));
 			assertTrue("pop argument 5",parser.arg1("pop argument 5").equals("argument"));
 			assertTrue("pop this 100",parser.arg1("pop this 100").equals("this"));
@@ -124,6 +125,7 @@ public class ParserTest {
 			assertTrue("push constant 0",parser.arg2("push constant 0") == 0 );
 			assertTrue("push constant 1234",parser.arg2("push constant 1234") == 1234 );
 			assertTrue("push local 2",parser.arg2("push local 2") == 2 );
+			assertTrue("pop local 2",parser.arg2("pop local 2") == 2 );
 			assertTrue("pop temp 3",parser.arg2("pop temp 3") == 3 );
 			assertTrue("pop argument 5",parser.arg2("pop argument 5") == 5 );
 			assertTrue("pop this 100",parser.arg2("pop this 100") == 100 );
