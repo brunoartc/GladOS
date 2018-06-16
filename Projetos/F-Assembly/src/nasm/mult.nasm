@@ -1,19 +1,14 @@
-leaw $R0, %A
-movw (%A), %S   ; S=RAM(%A)
 leaw $R1, %A
-movw (%A), %D   ; D=RAM(%A)
-WHILE:          ; while D not 0
-leaw $END, %A
-jle           ; termina o while se D=0
-nop
+movw (%A), %S
 leaw $R0, %A
-movw (%A), %S   ; S=RAM(%A)
-leaw $R3, %A
-addw (%A), %S, %S ; soma A com S e salva em R3
-leaw $R3,%A
-movw %S, (%A) ; R0=S
-decw %D         ; diminui D em 1
-leaw $WHILE, %A ; recomeça o while
-jmp
+movw (%A), %D
+decw %D
+leaw $R1, %A
+movw (%A), %A
+addw %A, %S, %S
+decw %D
+leaw $5, %A
+jg
 nop
-END:
+leaw $R2, %A
+movw %S, (%A)
