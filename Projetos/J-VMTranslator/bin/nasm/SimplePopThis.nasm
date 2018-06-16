@@ -1,4 +1,3 @@
-; 0 - POP this 0
 leaw $SP,%A
 movw (%A),%A
 decw %A
@@ -15,7 +14,6 @@ decw %A
 movw %A,%D
 leaw $SP,%A
 movw %D,(%A)
-; 1 - POP this 1
 leaw $SP,%A
 movw (%A),%A
 decw %A
@@ -32,7 +30,6 @@ decw %A
 movw %A,%D
 leaw $SP,%A
 movw %D,(%A)
-; 2 - POP this 2
 leaw $SP,%A
 movw (%A),%A
 decw %A

@@ -2,33 +2,24 @@
 leaw $Main.main, %A
 jmp
 nop
-; 1 - PUSH constant 14
-leaw $SP,%A
-movw (%A),%A
-incw %A
-movw %A,%D
-leaw $SP,%A
-movw %D,(%A)
 leaw $14,%A
 movw %A,%D
 leaw $SP,%A
 movw (%A),%A
-decw %A
 movw %D,(%A)
-; 2 - PUSH constant 2
-leaw $SP,%A
-movw (%A),%A
 incw %A
 movw %A,%D
-leaw $SP,%A
+leaw %SP,%A
 movw %D,(%A)
 leaw $2,%A
 movw %A,%D
 leaw $SP,%A
 movw (%A),%A
-decw %A
 movw %D,(%A)
-; 3 - ADD
+incw %A
+movw %A,%D
+leaw %SP,%A
+movw %D,(%A)
 leaw $SP,%A
 movw (%A),%A
 decw %A
@@ -45,33 +36,24 @@ decw %A
 movw %S,(%A)
 leaw $SP,%A
 movw %D,(%A)
-; 4 - PUSH constant 123
-leaw $SP,%A
-movw (%A),%A
-incw %A
-movw %A,%D
-leaw $SP,%A
-movw %D,(%A)
 leaw $123,%A
 movw %A,%D
 leaw $SP,%A
 movw (%A),%A
-decw %A
 movw %D,(%A)
-; 5 - PUSH constant 1
-leaw $SP,%A
-movw (%A),%A
 incw %A
 movw %A,%D
-leaw $SP,%A
+leaw %SP,%A
 movw %D,(%A)
 leaw $1,%A
 movw %A,%D
 leaw $SP,%A
 movw (%A),%A
-decw %A
 movw %D,(%A)
-; 6 - SUB
+incw %A
+movw %A,%D
+leaw %SP,%A
+movw %D,(%A)
 leaw $SP,%A
 movw (%A),%A
 decw %A
@@ -88,7 +70,6 @@ decw %A
 movw %S,(%A)
 leaw $SP,%A
 movw %D,(%A)
-; 7 - SUB
 leaw $SP,%A
 movw (%A),%A
 decw %A
@@ -105,7 +86,6 @@ decw %A
 movw %S,(%A)
 leaw $SP,%A
 movw %D,(%A)
-; 8 - POP temp 0
 leaw $SP,%A
 movw (%A),%A
 decw %A

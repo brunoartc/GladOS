@@ -96,7 +96,7 @@ public class Parser {
     		return CommandType.C_PUSH;
     	} else if (command.contains("pop")) {
     		return CommandType.C_POP;
-    	} else if (command.contains("add") || command.contains("neg") || command.contains("sub") || command.contains("eq") || command.contains("gt") || command.contains("lt") || command.contains("and") || command.contains("or")) {
+    	} else if (command.contains("add") || command.contains("neg") || command.contains("sub") || command.contains("eq") || command.contains("gt") || command.contains("lt") || command.contains("and") || command.contains("or") || command.contains("not")) {
     		return CommandType.C_ARITHMETIC;
     	} else if (command.contains("label")) {
     		return CommandType.C_LABEL;
@@ -134,7 +134,6 @@ public class Parser {
     public String arg1(String command) {
     	String[] resul = command.split(" ");
     	if (resul.length > 1) {
-    		System.out.println(resul.length);
     		return resul[1];
     	} else {
     		return command;
@@ -149,7 +148,6 @@ public class Parser {
      */
     public Integer arg2(String command) {
     	String[] resul = command.split(" ");
-//    	System.out.println(resul.length);
     	if (resul.length > 1) {
     		return Integer.parseInt(resul[2]);
     	} else {

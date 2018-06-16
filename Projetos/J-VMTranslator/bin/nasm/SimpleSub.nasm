@@ -1,4 +1,3 @@
-; 0 - SUB
 leaw $SP,%A
 movw (%A),%A
 decw %A

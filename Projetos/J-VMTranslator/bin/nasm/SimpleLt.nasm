@@ -1,4 +1,3 @@
-; 0 - LTy pral leaw de nani stk pointer
 leaw $SP,%A
 movw (%A),%A
 decw %A

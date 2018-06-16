@@ -1,4 +1,3 @@
-; 0 - PUSH temp 0
 leaw $R5,%A
 movw %A,%D
 leaw $0,%A
@@ -13,7 +12,6 @@ incw %A
 movw %A,%S
 leaw $SP,%A
 movw %S,(%A)
-; 1 - PUSH temp 1
 leaw $R5,%A
 movw %A,%D
 leaw $1,%A
@@ -28,7 +26,6 @@ incw %A
 movw %A,%S
 leaw $SP,%A
 movw %S,(%A)
-; 2 - PUSH temp 2
 leaw $R5,%A
 movw %A,%D
 leaw $2,%A
@@ -43,7 +40,6 @@ incw %A
 movw %A,%S
 leaw $SP,%A
 movw %S,(%A)
-; 3 - PUSH temp 3
 leaw $R5,%A
 movw %A,%D
 leaw $3,%A
@@ -58,7 +54,6 @@ incw %A
 movw %A,%S
 leaw $SP,%A
 movw %S,(%A)
-; 4 - PUSH temp 4
 leaw $R5,%A
 movw %A,%D
 leaw $4,%A
@@ -73,7 +68,6 @@ incw %A
 movw %A,%S
 leaw $SP,%A
 movw %S,(%A)
-; 5 - PUSH temp 5
 leaw $R5,%A
 movw %A,%D
 leaw $5,%A
@@ -88,7 +82,6 @@ incw %A
 movw %A,%S
 leaw $SP,%A
 movw %S,(%A)
-; 6 - PUSH temp 6
 leaw $R5,%A
 movw %A,%D
 leaw $6,%A
@@ -103,7 +96,6 @@ incw %A
 movw %A,%S
 leaw $SP,%A
 movw %S,(%A)
-; 7 - PUSH temp 7
 leaw $R5,%A
 movw %A,%D
 leaw $7,%A

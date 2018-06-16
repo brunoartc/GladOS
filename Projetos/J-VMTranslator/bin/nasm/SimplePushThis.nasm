@@ -1,4 +1,3 @@
-; 0 - PUSH this 0
 leaw $THIS,%A
 movw (%A),%A
 movw %A,%D
@@ -14,7 +13,6 @@ incw %A
 movw %A,%S
 leaw $SP,%A
 movw %S,(%A)
-; 1 - PUSH this 1
 leaw $THIS,%A
 movw (%A),%A
 movw %A,%D
@@ -30,7 +28,6 @@ incw %A
 movw %A,%S
 leaw $SP,%A
 movw %S,(%A)
-; 2 - PUSH this 2
 leaw $THIS,%A
 movw (%A),%A
 movw %A,%D

@@ -1,5 +1,3 @@
-; 0 - OR
-leaw $SP, %A
 leaw $SP,%A
 movw (%A),%A
 decw %A

@@ -1,4 +1,3 @@
-; 0 - GT
 leaw $SP,%A
 movw (%A),%A
 decw %A

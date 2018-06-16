@@ -1,4 +1,3 @@
-; 0 - ADD
 leaw $SP,%A
 movw (%A),%A
 decw %A

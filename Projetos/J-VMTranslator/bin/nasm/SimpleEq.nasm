@@ -1,4 +1,3 @@
-; 0 - EQ
 leaw $SP,%A
 movw (%A),%A
 decw %A
@@ -10,9 +9,10 @@ subw %A, %S, %D
 leaw $0, %A
 movw %A, %S
 leaw $14, %A
-jne
+jne %D
 nop
 decw %S
+nop
 leaw $SP,%A
 movw (%A),%A
 decw %A
