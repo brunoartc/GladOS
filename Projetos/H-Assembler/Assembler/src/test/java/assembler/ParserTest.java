@@ -172,7 +172,6 @@ public class ParserTest {
             assertTrue("Parser leaw $R0,%A",parser_testLeaw.command().equals("leaw $R0,%A"));
             assertTrue("Parser advance()",parser_testLeaw.advance());
             assertTrue("Parser leaw $R1,%A",parser_testLeaw.command().equals("leaw $R1,%A"));
-            System.out.println(parser_testLeaw.command());
             assertTrue("Parser advance()",parser_testLeaw.advance());
             assertTrue("Parser leaw $R2,%A",parser_testLeaw.command().equals("leaw $R2,%A"));
             assertFalse("Parser advance()",parser_testLeaw.advance());

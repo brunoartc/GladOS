@@ -7,6 +7,7 @@ package assembler;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -15,7 +16,6 @@ import java.util.Scanner;
  * Al�m disso, remove todos os espa�os em branco e coment�rios.
  */
 public class Parser {
-	private static final Object[] String = null;
 	public Scanner nasmFile; //Inst�ncia Scanner que guarda as linhas do nasm
 	public String instruction; //String que representa a linha atual sendo lida
 
@@ -53,10 +53,15 @@ public class Parser {
     	while(nasmFile.hasNextLine()) {
     		instruction = nasmFile.nextLine().trim();
     		if(instruction.length() == 0 || instruction.charAt(0) == ';'){
+    			try {
     			instruction = nasmFile.nextLine();
-    			if(instruction.length() != 0 && instruction.charAt(0) != ';'){
-    				break;
-    			}    			
+    			
+    			}
+    			finally{
+    				if(instruction.length() != 0 && instruction.charAt(0) != ';'){
+        				break;
+        			}    
+    			}			
     		}
     		else break;
     	}
@@ -144,8 +149,10 @@ public class Parser {
     	String cmd;
     	String[] resul = new String[10];
     	cmd = command.replace(","," ");
+    	cmd = cmd.replaceAll("( )+", " ");
     	
-    	resul = cmd.split(" ");
+    	resul =cmd.split(" ");
+    	
     	return resul;
     }
 
