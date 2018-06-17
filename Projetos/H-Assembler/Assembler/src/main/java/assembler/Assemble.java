@@ -55,7 +55,9 @@ public class Assemble {
 //                System.out.println(label_nova);
                 table.addEntry(label_nova, linha);
             }
+            else {
             linha ++;
+            }
         }
     }
 
@@ -81,7 +83,7 @@ public class Assemble {
                 if (table.contains(parse.symbol(parse.command()))){
 //                	System.out.println(parse.command());
                     binario = Code.toBinary(String.valueOf(table.getAddress(parse.symbol(parse.command()))));
-//                    System.out.println(binario);
+//                  System.out.println(binario);
                     ling_maquina = bit_A + binario;
                     outHACK.write(ling_maquina + "\n");
 

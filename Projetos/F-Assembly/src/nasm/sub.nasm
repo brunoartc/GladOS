@@ -8,7 +8,6 @@
 leaw $R1, %A
 movw (%A), %D
 leaw $R0, %A
-subw (%A), %D, %S
-leaw $R2, %A
-negw %S
+subw %D, (%A), %S
+leaw $2, %A
 movw %S, (%A)

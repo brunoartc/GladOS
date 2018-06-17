@@ -8,7 +8,7 @@
 leaw $R1 , %A
 movw (%A),%S
 
-leaw %ADD , %A
+leaw $ADD, %A
 
 jg %S
 nop
@@ -17,5 +17,5 @@ negw %S
 
 ADD:
 
-  leaw $0,%A
-  movw %S, (%A)
+leaw $0,%A
+movw %S, (%A)
